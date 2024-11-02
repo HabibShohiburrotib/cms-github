@@ -267,20 +267,22 @@ onMounted(() => {
         <div id="contentsa" class="dashboard-sa">
             <div class="container mt-80">
                 <div class="row">
+                    <h3 class="mb-4">Media Partner</h3>
                     <div class="d-flex justify-content-between mb-3">
                         <div class="d-flex justify-content-start">
                             <div class="search-input w-50 me-md-1">
-                                <input type="text" class="form-control rounded-3 h-40 c-border" v-model="searchQuery"
+                                <input type="text" class="form-control c-border rounded-3 h-40" v-model="searchQuery"
                                     placeholder="Search" />
                                 <i class="bi bi-search"></i>
                             </div>
-                            <select class="form-select w-30 c-border ms-2 h-40 c-border" v-model="selectedSort">
+                            <select class="form-select w-25 c-border h-40 ms-2" v-model="selectedSort">
                                 <option selected>Sort</option>
                                 <option value="newest">Newest</option>
                                 <option value="oldest">Oldest</option>
                             </select>
                         </div>
-                        <ButtonBiru class="fs-16 px-3 rounded-3 h-43" @click="showAddMediaPartnerModal">Add Media
+                        <ButtonBiru @click="showAddMediaPartnerModal" class="fs-16 px-3 rounded-3 h-43 mb-3">
+                            <i class="bi bi-plus me-1"></i>Add Media Partner
                         </ButtonBiru>
                     </div>
 
@@ -372,24 +374,22 @@ onMounted(() => {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="4" class="p-1">
+                                        <td colspan="7" class="p-1">
                                             <nav>
-                                                <div class="d-flex justify-content-between">
+                                                <div class="d-flex justify-content-between align-items-center">
                                                     <div class="d-flex align-items-center">
                                                         <label for="itemsPerPage" class="me-2">Items per page:</label>
-                                                        <select id="itemsPerPage" class="form-select w-auto bg-none"
+                                                        <select id="itemsPerPage" class="form-select w-auto"
                                                             v-model="itemsPerPage">
                                                             <option value="10">10</option>
                                                             <option value="20">20</option>
                                                             <option value="50">50</option>
                                                         </select>
-                                                        <span class="fs-16">{{ (currentPage - 1) * itemsPerPage + 1 }} -
-                                                            {{
-                                                                Math.min(currentPage * itemsPerPage, filteredData.length) }}
-                                                            of
-                                                            {{ filteredData.length }} items</span>
                                                     </div>
-                                                    <ul class="pagination custom-pagination justify-content-end">
+                                                    <span class="fs-16">{{ (currentPage - 1) * itemsPerPage + 1 }} - {{
+                                                        Math.min(currentPage * itemsPerPage, filteredData.length) }} of
+                                                        {{ filteredData.length }} items</span>
+                                                    <ul class="pagination custom-pagination mb-0">
                                                         <li class="page-item" :class="{ disabled: currentPage === 1 }">
                                                             <a class="page-link" href="#"
                                                                 @click.prevent="goToPage(currentPage - 1)">
@@ -400,7 +400,7 @@ onMounted(() => {
                                                             :class="{ active: page === currentPage }">
                                                             <a class="page-link" href="#"
                                                                 @click.prevent="goToPage(page)" v-if="page !== '...'">{{
-                                                                page }}</a>
+                                                                    page }}</a>
                                                             <span class="page-link" v-else>...</span>
                                                         </li>
                                                         <li class="page-item"

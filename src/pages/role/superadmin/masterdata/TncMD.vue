@@ -10,10 +10,44 @@ import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue';
 const isSidebarVisible = ref(true);
 const isEditing = ref(false);
 const content = ref(`
-<h3>About Us</h3>
-<h4>Digitefa: Solusi E-Learning untuk Mengembangkan Karier dan Potensimu</h4>
-<p>Digitefa hadir sebagai platform e-learning yang bertujuan untuk membantu berkembang dengan keterampilan yang relevan di dunia industri dan teknologi. Kami percaya bahwa pendidikan berkualitas harus dapat diakses oleh semua orang, sehingga semua bisa mencapai tujuan kariernya dengan lebih percaya diri.</p>
+    <ol>
+        <li>
+            Acceptance of Terms<br>
+            By creating an account, you agree to comply with and be bound by the following terms and conditions. These terms apply to all users of the platform.
+        </li>
+        <br>
+        <li>
+            Account Registration<br>
+            You must provide accurate and complete information during the registration process. You are responsible for keeping your login credentials secure and confidential. Any activity under your account is your responsibility.
+        </li>
+        <br>
+        <li>
+            Privacy Policy<br>
+            We are committed to protecting your privacy. All personal information collected during the registration process will be handled in accordance with our Privacy Policy.
+        </li>
+        <br>
+        <li>
+            Use of Platform<br>
+            You agree to use the platform for lawful purposes only. You may not use it for fraudulent or illegal activities, or to distribute harmful content.
+        </li>
+        <br>
+        <li>
+            Intellectual Property<br>
+            All content provided on the platform is the intellectual property of the company and its licensors. Unauthorized use, distribution, or reproduction is strictly prohibited.
+        </li>
+        <br>
+        <li>
+            Account Termination<br>
+            We reserve the right to suspend or terminate your account at our discretion if any violation of these terms occurs.
+        </li>
+        <br>
+        <li>
+            Changes to Terms<br>
+            We may update these terms from time to time, and it is your responsibility to review them periodically. Continued use of the platform constitutes acceptance of the updated terms.
+        </li>
+    </ol>
 `);
+
 const quill = ref(null);
 
 const updateSidebarVisibility = () => {
@@ -85,18 +119,18 @@ watch(isEditing, (newValue) => {
                     <div class="col-md-12 mt-4 mt-md-0">
                         <div v-if="!isEditing">
                             <div class="card rounded-3 p-4 border-0">
-                                <h5 class="fw-light fs-16">Digitefa/CMS/About Us Content</h5>
-                                <h4 class="fs-24">About Us Content</h4>
+                                <h5 class="fw-light fs-16">Digitefa/Master Data/Terms & Conditions</h5>
+                                <h4 class="fs-24">Terms & Conditions</h4>
                                 <div class="d-flex justify-content-end">
                                     <ButtonBiru @click="toggleEditMode" class="fs-16 px-3 rounded-3 h-43 mb-3">
-                                        <i class="bi bi-pencil-square me-1"></i> Edit About Us
+                                        <i class="bi bi-pencil-square me-1"></i> Edit Terms & Conditions
                                     </ButtonBiru>
                                 </div>
                                 <div class="card bordersa p-4" v-html="content"></div>
                             </div>
                         </div>
                         <div v-else class="card rounded-3 p-4 border-0">
-                            <h3 class="fs-24 mb-4">Edit About Us Content</h3>
+                            <h3 class="fs-24 mb-4">Edit Terms & Conditions</h3>
                             <div id="editor" ref="editor"></div>
                             <div class="d-flex justify-content-end">
                                 <ButtonBiru @click="saveContent" class="ms-3 my-4 h-45 px-3 rounded-3 fs-16">

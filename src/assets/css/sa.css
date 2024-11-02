@@ -276,6 +276,7 @@
 }
 .navbg-sa .thead-custom {
   background-color: rgba(216, 216, 216, 1) !important;
+  border: 1px solid #bbbbbb;
 }
 
 .navbg-sa .thead-custom tr,
@@ -318,6 +319,7 @@
 .navbg-sa .table-custom {
   border-radius: 16px;
   overflow: hidden;
+  border: 1px solid #bbbbbb;
 }
 .navbg-sa .table-custom thead {
   border-top-left-radius: 16px;
@@ -364,6 +366,7 @@
 .bg-none {
   background: none;
 }
+
 /* ==== TABEL SA START ==== */
 
 .bordersa {

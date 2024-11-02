@@ -158,6 +158,7 @@ onUnmounted(() => {
         <div id="contentsa" class="dashboard-sa">
             <div class="container mt-80">
                 <div class="row">
+                    <h3 class="mb-4">Level Teacher</h3>
                     <div class="d-flex justify-content-between mb-3">
                         <div class="d-flex justify-content-start">
                             <div class="search-input w-50 me-md-1">
@@ -165,13 +166,14 @@ onUnmounted(() => {
                                     placeholder="Search" />
                                 <i class="bi bi-search"></i>
                             </div>
-                            <select class="form-select w-30 c-border h-40 ms-2" v-model="selectedSort">
+                            <select class="form-select w-25 c-border h-40 ms-2" v-model="selectedSort">
                                 <option selected>Sort</option>
                                 <option value="newest">Newest</option>
                                 <option value="oldest">Oldest</option>
                             </select>
                         </div>
-                        <ButtonBiru class="fs-16 px-3 rounded-3 h-43" @click="showAddLevelTeacherModal">Add Level
+                        <ButtonBiru class="fs-16 px-3 rounded-3 h-43" @click="showAddLevelTeacherModal">
+                            <i class="bi bi-plus me-1"></i>Add Level
                             Teacher
                         </ButtonBiru>
                     </div>
@@ -198,13 +200,14 @@ onUnmounted(() => {
                                     </div>
                                     <div class="d-flex justify-content-between mt-3">
                                         <label for="categoryName" class="fs-16 mb-0 mt-2">Description</label>
-                                        <textarea name="" id="" cols="30" class="c-border w-66 h-43 rounded-2"
-                                            rows="3"></textarea>
+                                        <textarea name="textarea" id="categoryName" cols="30"
+                                            class="c-border w-66 h-43 rounded-2" rows="3"
+                                            placeholder="Description"></textarea>
                                     </div>
                                     <div class="d-flex justify-content-between mt-3">
                                         <label for="categoryName" class="fs-16 mb-0 mt-2">Number of Courses</label>
                                         <input type="number" id="categoryName" class="form-control c-border w-66 h-43"
-                                            placeholder="Number of Course" />
+                                            placeholder="Number of course" />
                                     </div>
                                     <div class="d-flex justify-content-start align-items-center mt-3">
                                         <label class="fs-16 mb-0 me-5">Level Course</label>
@@ -303,24 +306,22 @@ onUnmounted(() => {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="6" class="p-1">
+                                        <td colspan="7" class="p-1">
                                             <nav>
-                                                <div class="d-flex justify-content-between">
+                                                <div class="d-flex justify-content-between align-items-center">
                                                     <div class="d-flex align-items-center">
                                                         <label for="itemsPerPage" class="me-2">Items per page:</label>
-                                                        <select id="itemsPerPage" class="form-select w-auto bg-none"
+                                                        <select id="itemsPerPage" class="form-select w-auto"
                                                             v-model="itemsPerPage">
                                                             <option value="10">10</option>
                                                             <option value="20">20</option>
                                                             <option value="50">50</option>
                                                         </select>
-                                                        <span class="fs-16">{{ (currentPage - 1) * itemsPerPage + 1 }} -
-                                                            {{
-                                                                Math.min(currentPage * itemsPerPage, filteredData.length) }}
-                                                            of
-                                                            {{ filteredData.length }} items</span>
                                                     </div>
-                                                    <ul class="pagination custom-pagination justify-content-end">
+                                                    <span class="fs-16">{{ (currentPage - 1) * itemsPerPage + 1 }} - {{
+                                                        Math.min(currentPage * itemsPerPage, filteredData.length) }} of
+                                                        {{ filteredData.length }} items</span>
+                                                    <ul class="pagination custom-pagination mb-0">
                                                         <li class="page-item" :class="{ disabled: currentPage === 1 }">
                                                             <a class="page-link" href="#"
                                                                 @click.prevent="goToPage(currentPage - 1)">

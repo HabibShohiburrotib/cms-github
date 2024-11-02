@@ -15,8 +15,8 @@
                 </router-link>
             </li>
             <li class="mt-12">
-                <router-link to="/course-manajemen"
-                    :class="['nav-link fs-16 bi bi-book ps-4', isActive('/course-manajemen') ? 'active-sidebar' : 'color-sidebar']">
+                <router-link to="/course-management"
+                    :class="['nav-link fs-16 bi bi-book ps-4', isActive('/course-management') ? 'active-sidebar' : 'color-sidebar']">
                     <span class="icon"></span>
                     <span class="mt-2 text p-absolute">Course Management</span>
                 </router-link>
@@ -31,22 +31,22 @@
                 </a>
                 <ul v-show="isUserManagementDropdownOpen" class="dropdown mt--3">
                     <li class="ms-18">
-                        <router-link to="/user-manajemen/user"
-                            :class="['nav-link', isActive('/user-manajemen/user') ? 'active-sidebar' : 'color-sidebar']">
+                        <router-link to="/user-management/user"
+                            :class="['nav-link', isActive('/user-management/user') ? 'active-sidebar' : 'color-sidebar']">
                             <span class="icon"></span>
                             <span class="mt-2 text p-absolute">--</span>
                         </router-link>
                     </li>
                     <li class="ms-18">
-                        <router-link to="/user-manajemen/teacher"
-                            :class="['nav-link', isActive('/user-manajemen/teacher') ? 'active-sidebar' : 'color-sidebar']">
+                        <router-link to="/user-management/teacher"
+                            :class="['nav-link', isActive('/user-management/teacher') ? 'active-sidebar' : 'color-sidebar']">
                             <span class="icon"></span>
                             <span class="mt-2 text p-absolute">--</span>
                         </router-link>
                     </li>
                     <li class="ms-18">
-                        <router-link to="/user-manajemen/student"
-                            :class="['nav-link', isActive('/user-manajemen/student') ? 'active-sidebar' : 'color-sidebar']">
+                        <router-link to="/user-management/student"
+                            :class="['nav-link', isActive('/user-management/student') ? 'active-sidebar' : 'color-sidebar']">
                             <span class="icon"></span>
                             <span class="mt-2 text p-absolute">--</span>
                         </router-link>
@@ -63,13 +63,6 @@
                 </a>
                 <ul v-show="isUserCMSDropdownOpen" class="dropdown mt--3">
                     <li class="ms-18">
-                        <router-link to="/cms/sponsor"
-                            :class="['nav-link', isActive('/cms/sponsor') ? 'active-sidebar2' : 'color-sidebar']">
-                            <span class="icon"></span>
-                            <span class="ms-4 mt-2 text p-absolute">Sponsor</span>
-                        </router-link>
-                    </li>
-                    <li class="ms-18">
                         <router-link to="/cms/media-partner"
                             :class="['nav-link', isActive('/cms/media-partner') ? 'active-sidebar2' : 'color-sidebar']">
                             <span class="icon"></span>
@@ -77,10 +70,10 @@
                         </router-link>
                     </li>
                     <li class="ms-18">
-                        <router-link to="/cms/sosial-media"
-                            :class="['nav-link', isActive('/cms/sosial-media') ? 'active-sidebar2' : 'color-sidebar']">
+                        <router-link to="/cms/social-media"
+                            :class="['nav-link', isActive('/cms/social-media') ? 'active-sidebar2' : 'color-sidebar']">
                             <span class="icon"></span>
-                            <span class="ms-4 mt-2 text p-absolute">Sosial Media</span>
+                            <span class="ms-4 mt-2 text p-absolute">Social Media</span>
                         </router-link>
                     </li>
                     <li class="ms-18">
@@ -94,7 +87,7 @@
             </li>
             <li class="mt-2">
                 <a href="#" @click.prevent="toggleMasterDataDropdown"
-                    :class="['nav-link bi bi-file-earmark-plus-fill color-sidebar ps-4', { 'active-sidebar': isMasterDataActive }]">
+                    :class="['nav-link bi bi-folder-plus color-sidebar ps-4', { 'active-sidebar': isMasterDataActive }]">
                     <span class="icon"></span>
                     <span class="mt-2 text p-absolute">Master Data</span>
                     <span class="bi text mt-2 p-absolute r-13"
@@ -136,6 +129,13 @@
                             <span class="ms-4 mt-2 text p-absolute">Tools</span>
                         </router-link>
                     </li>
+                    <li class="ms-18">
+                        <router-link to="/master-data/tnc"
+                            :class="['nav-link', isActive('/master-data/tnc') ? 'active-sidebar2' : 'color-sidebar']">
+                            <span class="icon"></span>
+                            <span class="ms-4 mt-2 text p-absolute">Terms & Conditions</span>
+                        </router-link>
+                    </li>
                 </ul>
             </li>
             <li class="mt-2">
@@ -157,7 +157,7 @@
                         <router-link to="/settings/my-profile"
                             :class="['nav-link', isActive('/settings/m') ? 'active-sidebar' : 'color-sidebar']">
                             <span class="icon"></span>
-                            <span class="mt-2 text p-absolute">---</span>
+                            <span class="mt-2 text p-absolute">--</span>
                         </router-link>
                     </li>
                     <li class="ms-24">
@@ -196,9 +196,8 @@ export default {
     computed: {
         isCMSActive() {
             const activeRoutes = [
-                '/cms/sponsor',
                 '/cms/media-partner',
-                '/cms/sosial-media',
+                '/cms/social-media',
                 '/cms/about-us'
             ];
             return activeRoutes.includes(this.$route.path);
@@ -210,6 +209,7 @@ export default {
                 '/master-data/category',
                 '/master-data/skills',
                 '/master-data/tools',
+                '/master-data/tnc',
             ];
             return activeRoutes.includes(this.$route.path);
         },
