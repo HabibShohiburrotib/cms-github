@@ -291,27 +291,21 @@ onUnmounted(() => {
         <div id="contentsa" class="dashboard-sa">
             <div class="container mt-80">
                 <div class="row">
-                    <h3 class="mb-4">Media Partner</h3>
                     <div class="d-flex justify-content-between mb-3">
                         <div class="d-flex justify-content-start">
                             <div class="search-input w-50 me-md-1">
-                                <input type="text" class="form-control c-border rounded-3 h-40" v-model="searchQuery"
+                                <input type="text" class="form-control rounded-3 h-40 c-border" v-model="searchQuery"
                                     placeholder="Search" />
                                 <i class="bi bi-search"></i>
                             </div>
-                            <select class="form-select w-25 c-border h-40 ms-2" v-model="selectedSort">
+                            <select class="form-select w-30 c-border ms-2 h-40 c-border" v-model="selectedSort">
                                 <option selected>Sort</option>
                                 <option value="newest">Newest</option>
                                 <option value="oldest">Oldest</option>
                             </select>
                         </div>
-<<<<<<< HEAD
                         <ButtonBiru class="fs-16 px-3 rounded-3 h-43 ms-2" @click="showAddMediaPartnerModal">
                             + Add Media Partner
-=======
-                        <ButtonBiru @click="showAddMediaPartnerModal" class="fs-16 px-3 rounded-3 h-43 mb-3">
-                            <i class="bi bi-plus me-1"></i>Add Media Partner
->>>>>>> 7a2a34bba47de2e22a05d9d253ec7484f1468dd7
                         </ButtonBiru>
                     </div>
 
@@ -350,8 +344,8 @@ onUnmounted(() => {
                                     <ButtonTransparanComponen
                                         class="mt-4 my-0 h-40 w-30 me-5 rounded-3 c-border bg-white fs-16"
                                         @click="closeAddMediaPartneryModal">Cancel</ButtonTransparanComponen>
-                                    <ButtonBiru class="ms-3 mt-4 my-0 h-40 w-30 rounded-3 fs-16" @click="submitForm">
-                                        Save</ButtonBiru>
+                                    <ButtonBiru class="ms-3 mt-4 my-0 h-40 w-30 rounded-3 fs-16"
+                                        @click="submitForm">Save</ButtonBiru>
                                 </div>
                             </div>
                         </div>
@@ -378,7 +372,7 @@ onUnmounted(() => {
                                         <td class="ps-4 pt-4">
                                             <div class="dropdown-container ps-2">
                                                 <button class="btn border-0 dropdown-toggle" type="button"
-                                                    @click="showDropdownMenu">
+                                                @click="showDropdownMenu">
                                                     <p class="bi bi-three-dots-vertical"
                                                         style="margin-bottom: -8px; margin-top: -5px;"></p>
                                                 </button>

@@ -99,11 +99,7 @@ watch(isEditing, (newValue) => {
                             <h3 class="fs-24 mb-4">Edit About Us Content</h3>
                             <div id="editor" ref="editor"></div>
                             <div class="d-flex justify-content-end">
-<<<<<<< HEAD
                                 <ButtonBiru @click="saveContent" class="ms-3 my-3 h-45 px-3 rounded-3 fs-16">
-=======
-                                <ButtonBiru @click="saveContent" class="ms-3 my-4 h-45 px-3 rounded-3 fs-16">
->>>>>>> 7a2a34bba47de2e22a05d9d253ec7484f1468dd7
                                     Save
                                 </ButtonBiru>
                             </div>

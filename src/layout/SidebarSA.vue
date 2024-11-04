@@ -14,11 +14,7 @@
                     <span class="mt-2 text p-absolute">Dashboard</span>
                 </router-link>
             </li>
-<<<<<<< HEAD
             <li>
-=======
-            <li class="mt-12">
->>>>>>> 7a2a34bba47de2e22a05d9d253ec7484f1468dd7
                 <router-link to="/course-management"
                     :class="['nav-link fs-16 bi bi-book ps-4', isActive('/course-management') ? 'active-sidebar' : 'color-sidebar']">
                     <span class="icon"></span>
@@ -75,11 +71,7 @@
                     </li>
                     <li class="ms-18">
                         <router-link to="/cms/social-media"
-<<<<<<< HEAD
                             :class="['nav-link', isActive('/cms/social-media') ? 'active-sidebar2' : 'color-sidebar2']">
-=======
-                            :class="['nav-link', isActive('/cms/social-media') ? 'active-sidebar2' : 'color-sidebar']">
->>>>>>> 7a2a34bba47de2e22a05d9d253ec7484f1468dd7
                             <span class="icon"></span>
                             <span class="ms-4 mt-2 text p-absolute">Social Media</span>
                         </router-link>
@@ -139,11 +131,7 @@
                     </li>
                     <li class="ms-18">
                         <router-link to="/master-data/tnc"
-<<<<<<< HEAD
                             :class="['nav-link', isActive('/master-data/tnc') ? 'active-sidebar2' : 'color-sidebar2']">
-=======
-                            :class="['nav-link', isActive('/master-data/tnc') ? 'active-sidebar2' : 'color-sidebar']">
->>>>>>> 7a2a34bba47de2e22a05d9d253ec7484f1468dd7
                             <span class="icon"></span>
                             <span class="ms-4 mt-2 text p-absolute">Terms & Conditions</span>
                         </router-link>
@@ -220,7 +208,6 @@ export default {
                 '/master-data/category',
                 '/master-data/skills',
                 '/master-data/tools',
-                '/master-data/tnc',
             ];
             return activeRoutes.includes(this.$route.path);
         },
