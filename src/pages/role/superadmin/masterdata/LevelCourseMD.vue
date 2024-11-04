@@ -252,6 +252,7 @@ onUnmounted(() => {
         <div id="contentsa" class="dashboard-sa">
             <div class="container mt-80">
                 <div class="row">
+                    <h3 class="mb-4">Level Course</h3>
                     <div class="d-flex justify-content-between mb-3">
                         <div class="d-flex justify-content-start">
                             <div class="search-input w-50 me-md-1">
@@ -265,7 +266,8 @@ onUnmounted(() => {
                                 <option value="oldest">Oldest</option>
                             </select>
                         </div>
-                        <ButtonBiru class="fs-16 px-3 rounded-3 h-43" @click="showAddLevelCourseModal">Add Level Course
+                        <ButtonBiru class="fs-16 px-3 rounded-3 h-43" @click="showAddLevelCourseModal">
+                            <i class="bi bi-plus me-1"></i>Add Level Course
                         </ButtonBiru>
                     </div>
 

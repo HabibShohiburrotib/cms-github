@@ -182,6 +182,7 @@ onUnmounted(() => {
         <div id="contentsa" class="dashboard-sa">
             <div class="container mt-80">
                 <div class="row">
+                    <h3 class="mb-4">Level Teacher</h3>
                     <div class="d-flex justify-content-between mb-3">
                         <div class="d-flex justify-content-start">
                             <div class="search-input w-50 me-md-1">
@@ -189,13 +190,14 @@ onUnmounted(() => {
                                     placeholder="Search" />
                                 <i class="bi bi-search"></i>
                             </div>
-                            <select class="form-select w-30 c-border h-40 ms-2" v-model="selectedSort">
+                            <select class="form-select w-25 c-border h-40 ms-2" v-model="selectedSort">
                                 <option selected>Sort</option>
                                 <option value="newest">Newest</option>
                                 <option value="oldest">Oldest</option>
                             </select>
                         </div>
-                        <ButtonBiru class="fs-16 px-3 rounded-3 h-43" @click="showAddLevelTeacherModal">Add Level
+                        <ButtonBiru class="fs-16 px-3 rounded-3 h-43" @click="showAddLevelTeacherModal">
+                            <i class="bi bi-plus me-1"></i>Add Level
                             Teacher
                         </ButtonBiru>
                     </div>
@@ -221,15 +223,22 @@ onUnmounted(() => {
                                             placeholder="Name level teacher" />
                                     </div>
                                     <div class="d-flex justify-content-between mt-3">
+<<<<<<< HEAD
                                         <label for="categoryName" class="fs-16 mb-0 mt-1">Description</label>
                                         <textarea class="form-control c-border w-66 rounded-2"
                                             id="exampleFormControlTextarea1" rows="2" placeholder="Description"
                                             required></textarea>
+=======
+                                        <label for="categoryName" class="fs-16 mb-0 mt-2">Description</label>
+                                        <textarea name="textarea" id="categoryName" cols="30"
+                                            class="c-border w-66 h-43 rounded-2" rows="3"
+                                            placeholder="Description"></textarea>
+>>>>>>> 7a2a34bba47de2e22a05d9d253ec7484f1468dd7
                                     </div>
                                     <div class="d-flex justify-content-between mt-3">
                                         <label for="categoryName" class="fs-16 mb-0 mt-2">Number of Courses</label>
                                         <input type="number" id="categoryName" class="form-control c-border w-66 h-43"
-                                            placeholder="Number of Course" />
+                                            placeholder="Number of course" />
                                     </div>
                                     <div class="d-flex justify-content-start align-items-center mt-3">
                                         <label class="fs-16 mb-0 me-5">Level Course</label>

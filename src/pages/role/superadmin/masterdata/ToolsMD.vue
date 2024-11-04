@@ -181,6 +181,7 @@ onUnmounted(() => {
         <div id="contentsa" class="dashboard-sa">
             <div class="container mt-80">
                 <div class="row">
+                    <h3 class="mb-4">Tools</h3>
                     <div class="d-flex justify-content-between mb-3">
                         <div class="d-flex justify-content-start">
                             <div class="search-input w-50 me-md-1">
@@ -188,13 +189,14 @@ onUnmounted(() => {
                                     placeholder="Search" />
                                 <i class="bi bi-search"></i>
                             </div>
-                            <select class="form-select w-30 c-border h-40 ms-2" v-model="selectedSort">
+                            <select class="form-select w-25 c-border h-40 ms-2" v-model="selectedSort">
                                 <option selected>Sort</option>
                                 <option value="newest">Newest</option>
                                 <option value="oldest">Oldest</option>
                             </select>
                         </div>
-                        <ButtonBiru class="fs-16 px-3 rounded-3 h-43" @click="showAddToolsModal">Add Tools
+                        <ButtonBiru class="fs-16 px-3 rounded-3 h-43" @click="showAddToolsModal">
+                            <i class="bi bi-plus me-1"></i>Add Tools
                         </ButtonBiru>
                     </div>
 

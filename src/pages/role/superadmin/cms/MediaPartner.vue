@@ -291,21 +291,27 @@ onUnmounted(() => {
         <div id="contentsa" class="dashboard-sa">
             <div class="container mt-80">
                 <div class="row">
+                    <h3 class="mb-4">Media Partner</h3>
                     <div class="d-flex justify-content-between mb-3">
                         <div class="d-flex justify-content-start">
                             <div class="search-input w-50 me-md-1">
-                                <input type="text" class="form-control rounded-3 h-40 c-border" v-model="searchQuery"
+                                <input type="text" class="form-control c-border rounded-3 h-40" v-model="searchQuery"
                                     placeholder="Search" />
                                 <i class="bi bi-search"></i>
                             </div>
-                            <select class="form-select w-30 c-border ms-2 h-40 c-border" v-model="selectedSort">
+                            <select class="form-select w-25 c-border h-40 ms-2" v-model="selectedSort">
                                 <option selected>Sort</option>
                                 <option value="newest">Newest</option>
                                 <option value="oldest">Oldest</option>
                             </select>
                         </div>
+<<<<<<< HEAD
                         <ButtonBiru class="fs-16 px-3 rounded-3 h-43 ms-2" @click="showAddMediaPartnerModal">
                             + Add Media Partner
+=======
+                        <ButtonBiru @click="showAddMediaPartnerModal" class="fs-16 px-3 rounded-3 h-43 mb-3">
+                            <i class="bi bi-plus me-1"></i>Add Media Partner
+>>>>>>> 7a2a34bba47de2e22a05d9d253ec7484f1468dd7
                         </ButtonBiru>
                     </div>
 
