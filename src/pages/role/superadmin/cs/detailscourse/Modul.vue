@@ -33,8 +33,8 @@ const showAddVideoPage = () => {
 const showAddEssayPage = () => {
     currentPage.value = 'addEssay';
 };
-const showAddAssementPage = () => {
-    currentPage.value = 'addAssement';
+const showAddAssessmentPage = () => {
+    currentPage.value = 'addAssessment'; 
 };
 
 const toggleButtons = () => {
@@ -79,7 +79,7 @@ onUnmounted(() => {
     <div v-if="showButtons" class="d-flex justify-content-center gap-2 h-43 mt-3">
         <ButtonBiru @click="showAddVideoPage">+ Tambah Video</ButtonBiru>
         <ButtonBiru @click="showAddEssayPage">+ Tambah Essay</ButtonBiru>
-        <ButtonBiru @click="showAddAssementPage">+ Tambah Assement</ButtonBiru>
+        <ButtonBiru @click="showAddAssessmentPage">+ Tambah Assessment</ButtonBiru>
     </div>
 
     <button class="bg-none rounded-3 w-100 h-43 d-flex align-items-center ps-2 fs-14 border-spasi mt-3 gap-2"

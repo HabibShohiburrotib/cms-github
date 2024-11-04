@@ -27,7 +27,7 @@ const handleFileUploadEdit = (event) => {
 };
 
 const goToDetail = () => {
-    currentPage.value = 'detail';
+    currentPage.value = 'details';
 };
 
 const checkWindowSize = () => {
@@ -68,8 +68,8 @@ onUnmounted(() => {
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card rounded-2 p-4 border-0">
-                            <h5 class="fw-light fs-16">Digitefa / Course Manajemen / Add Course</h5>
-                            <h4 class="fs-24">Course Manajemen</h4>
+                            <h5 class="fw-light fs-16">Digitefa/Course Management/Add Course</h5>
+                            <h4 class="fs-24">Course Management</h4>
                             <div class="card p-3 bordersa mt-4">
                                 <h5 class="fs-20">Add Course</h5>
                                 <hr />

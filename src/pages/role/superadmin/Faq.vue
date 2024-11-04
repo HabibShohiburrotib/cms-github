@@ -34,7 +34,7 @@ onUnmounted(() => {
         <div id="contentsa" class="dashboard-sa">
             <div class="container mt-80">
                 <div class="row">
-                    <h1>FAQ</h1>
+                    <h3 class="mb-4">Frequently Asked Questions</h3>
                 </div>
             </div>
         </div>

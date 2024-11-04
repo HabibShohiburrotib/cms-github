@@ -304,7 +304,8 @@ onUnmounted(() => {
                                 <option value="oldest">Oldest</option>
                             </select>
                         </div>
-                        <ButtonBiru class="fs-16 px-3 rounded-3 h-43" @click="showAddMediaPartnerModal">Add Media
+                        <ButtonBiru class="fs-16 px-3 rounded-3 h-43 ms-2" @click="showAddMediaPartnerModal">
+                            + Add Media Partner
                         </ButtonBiru>
                     </div>
 
@@ -343,8 +344,8 @@ onUnmounted(() => {
                                     <ButtonTransparanComponen
                                         class="mt-4 my-0 h-40 w-30 me-5 rounded-3 c-border bg-white fs-16"
                                         @click="closeAddMediaPartneryModal">Cancel</ButtonTransparanComponen>
-                                    <ButtonBiru class="ms-3 mt-4 my-0 h-40 w-30 rounded-3 fs-16"
-                                        @click="submitForm">Save</ButtonBiru>
+                                    <ButtonBiru class="ms-3 mt-4 my-0 h-40 w-30 rounded-3 fs-16" @click="submitForm">
+                                        Save</ButtonBiru>
                                 </div>
                             </div>
                         </div>
@@ -371,7 +372,7 @@ onUnmounted(() => {
                                         <td class="ps-4 pt-4">
                                             <div class="dropdown-container ps-2">
                                                 <button class="btn border-0 dropdown-toggle" type="button"
-                                                @click="showDropdownMenu">
+                                                    @click="showDropdownMenu">
                                                     <p class="bi bi-three-dots-vertical"
                                                         style="margin-bottom: -8px; margin-top: -5px;"></p>
                                                 </button>
@@ -398,24 +399,22 @@ onUnmounted(() => {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="4" class="p-1">
+                                        <td colspan="7" class="p-1">
                                             <nav>
-                                                <div class="d-flex justify-content-between">
+                                                <div class="d-flex justify-content-between align-items-center">
                                                     <div class="d-flex align-items-center">
                                                         <label for="itemsPerPage" class="me-2">Items per page:</label>
-                                                        <select id="itemsPerPage" class="form-select w-auto bg-none border-0"
+                                                        <select id="itemsPerPage" class="form-select w-auto"
                                                             v-model="itemsPerPage">
                                                             <option value="10">10</option>
                                                             <option value="20">20</option>
                                                             <option value="50">50</option>
                                                         </select>
-                                                        <span class="fs-16">{{ (currentPage - 1) * itemsPerPage + 1 }} -
-                                                            {{
-                                                                Math.min(currentPage * itemsPerPage, filteredData.length) }}
-                                                            of
-                                                            {{ filteredData.length }} items</span>
                                                     </div>
-                                                    <ul class="pagination custom-pagination justify-content-end">
+                                                    <span class="fs-16">{{ (currentPage - 1) * itemsPerPage + 1 }} - {{
+                                                        Math.min(currentPage * itemsPerPage, filteredData.length) }} of
+                                                        {{ filteredData.length }} items</span>
+                                                    <ul class="pagination custom-pagination mb-0">
                                                         <li class="page-item" :class="{ disabled: currentPage === 1 }">
                                                             <a class="page-link" href="#"
                                                                 @click.prevent="goToPage(currentPage - 1)">
@@ -426,7 +425,7 @@ onUnmounted(() => {
                                                             :class="{ active: page === currentPage }">
                                                             <a class="page-link" href="#"
                                                                 @click.prevent="goToPage(page)" v-if="page !== '...'">{{
-                                                                page }}</a>
+                                                                    page }}</a>
                                                             <span class="page-link" v-else>...</span>
                                                         </li>
                                                         <li class="page-item"

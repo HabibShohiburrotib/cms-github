@@ -5,30 +5,28 @@ import SidebarSA from '@/layout/SidebarSA.vue';
 import ButtonBiru from '@/components/ButtonBiru.vue';
 import ButtonTransparanComponen from '@/components/ButtonTransparanComponen.vue';
 import ButtonMerah from '@/components/ButtonMerah.vue';
-import axios from 'axios';
-import { useRouter } from 'vue-router';
 
 const isSidebarVisible = ref(true);
-const categoryData = ref([]);
-const router = useRouter();
+const levelteacherData = ref([]);
 const searchQuery = ref('');
 const isModalVisible = ref(false);
 const isEditModalVisible = ref(false);
-const currentCategory = ref(null);
+const currentLevelTeacher = ref(null);
 const isDeleteModalVisible = ref(false);
-const categoryToDelete = ref(null);
+const levelteacherToDelete = ref(null);
 const isToastVisible = ref(false);
-const toastMessage = ref('');
 const selectedSort = ref('Sort');
+const toastMessage = ref('');
 const currentPage = ref(1);
 const itemsPerPage = 10;
 const totalPages = computed(() => Math.ceil(filteredData.value.length / itemsPerPage));
 const dropdownVisible = ref(false);
 const dropdownPosition = ref({ top: '0px', left: '0px' });
 
-const form = ref({
-    name: '',
-});
+
+// const form = ref({
+
+// });
 
 const showDropdownMenu = (event) => {
     const buttonRect = event.target.getBoundingClientRect();
@@ -50,14 +48,14 @@ const handleClickOutside = (event) => {
 };
 
 const filteredData = computed(() => {
-    let sortedData = [...categoryData.value];
+    let sortedData = [...levelteacherData.value];
     if (selectedSort.value === 'newest') {
         sortedData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
     } else if (selectedSort.value === 'oldest') {
         sortedData.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
     }
-    return sortedData.filter(category =>
-        category.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+    return sortedData.filter(levelteacher =>
+        levelteacher.name.toLowerCase().includes(searchQuery.value.toLowerCase())
     );
 });
 
@@ -88,80 +86,50 @@ const pageNumbers = computed(() => {
     return pages;
 });
 
-const fetchCategoryData = async () => {
-    try {
-        const response = await axios.get('/categories');
-        categoryData.value = response.data;
-    } catch (error) {
-        console.error('Error fetching About Us data:', error);
-    }
+const fetchLevelTeacherData = async () => {
+
 };
 
-const submitForm = async () => {
-    try {
-        const response = await axios.post('/categories', form.value);
-        console.log(response.data.message);
-        closeAddCategoryModal();
-        showToast('Add Category successfully!');
+const submitLevelTeacherForm = async () => {
 
-        form.value.name = '';
-        await fetchCategoryData();
-
-        router.push('/master-data/category');
-    } catch (error) {
-        console.error('Error deleting category:', error);
-        showToast('Error Add Category.');
-    }
 };
 
-const showAddCategoryModal = () => {
+const showAddLevelTeacherModal = () => {
     isModalVisible.value = true;
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
     document.body.style.paddingRight = '15px';
 };
 
-const closeAddCategoryModal = () => {
+const closeAddLevelTeachereModal = () => {
     isModalVisible.value = false;
     document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
     document.body.style.paddingRight = '';
 };
 
-const saveCategory = async () => {
-    try {
-        if (currentCategory.value) {
-            await axios.post(`/categories/${currentCategory.value.id_category}`, {
-                name: currentCategory.value.name
-            });
-            fetchCategoryData();
-            closeEditCategoryModal();
-            showToast('Updated Category successfully!');
-        }
-    } catch (error) {
-        console.error('Error updating category:', error);
-        showToast('Error Updated Category.');
-    }
+const saveUpdateLevelTeacher = async () => {
+
 };
 
-const showEditCategoryModal = (category) => {
-    currentCategory.value = { ...category };
+const showEditLevelTeacherModal = (levelteacher) => {
+    currentLevelTeacher.value = { ...levelteacher };
     isEditModalVisible.value = true;
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
     document.body.style.paddingRight = '15px';
 };
 
-const closeEditCategoryModal = () => {
+const closeEditLevelTeacherModal = () => {
     isEditModalVisible.value = false;
-    currentCategory.value = null;
+    currentLevelTeacher.value = null;
     document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
     document.body.style.paddingRight = '';
 };
 
-const showDeleteCategoryModal = (category) => {
-    categoryToDelete.value = category;
+const showDeleteLevelTeacherModal = (levelteacher) => {
+    levelteacherToDelete.value = levelteacher;
     isDeleteModalVisible.value = true;
 
     document.documentElement.style.overflow = 'hidden';
@@ -169,46 +137,20 @@ const showDeleteCategoryModal = (category) => {
     document.body.style.paddingRight = '15px';
 };
 
-const closeDeleteCategoryModal = () => {
+const closeDeleteLevelTeacherModal = () => {
     isDeleteModalVisible.value = false;
-    categoryToDelete.value = null;
+    levelteacherToDelete.value = null;
 
     document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
     document.body.style.paddingRight = '';
 };
 
-const deleteCategory = async () => {
-    try {
-        if (categoryToDelete.value) {
-            await axios.delete(`/categories/${categoryToDelete.value.id_category}`);
-            fetchCategoryData();
-            closeModal();
-            showToast('Category deleted successfully!');
-        }
-    } catch (error) {
-        console.error('Error deleting category:', error);
-        showToast('Error deleting Category.');
-    }
-};
-
-const showToast = (message) => {
-    toastMessage.value = message;
-    isToastVisible.value = true;
-    setTimeout(() => {
-        isToastVisible.value = false;
-    }, 3000);
-};
-
-const closeModal = () => {
-    isDeleteModalVisible.value = false;
-    document.documentElement.style.overflow = '';
-    document.body.style.overflow = '';
-    document.body.style.paddingRight = '';
+const deleteLevelTeacher = async () => {
 };
 
 onMounted(() => {
-    fetchCategoryData();
+    fetchLevelTeacherData();
 });
 
 const checkWindowSize = () => {
@@ -225,7 +167,6 @@ onUnmounted(() => {
     window.removeEventListener('resize', checkWindowSize);
     document.removeEventListener('click', handleClickOutside);
 })
-
 </script>
 
 <template>
@@ -254,37 +195,87 @@ onUnmounted(() => {
                                 <option value="oldest">Oldest</option>
                             </select>
                         </div>
-                        <ButtonBiru class="fs-16 px-3 rounded-3 h-43" @click="showAddCategoryModal">Add Category
+                        <ButtonBiru class="fs-16 px-3 rounded-3 h-43" @click="showAddLevelTeacherModal">Add Level
+                            Teacher
                         </ButtonBiru>
                     </div>
 
                     <!-- Add Modal -->
-                    <div v-if="isModalVisible" class="modal-backdrop" @click="closeAddCategoryModal"></div>
+                    <div v-if="isModalVisible" class="modal-backdrop" @click="closeAddLevelTeachereModal"></div>
                     <div v-if="isModalVisible" class="modal fade show d-block" role="dialog"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true" @click.self="closeAddCategoryModal">
-                        <div class="modal-dialog custom-modal modal-dialog-centered">
+                        aria-labelledby="exampleModalLabel" aria-hidden="true" @click.self="closeAddLevelTeachereModal">
+                        <div class="modal-dialog custom-modal-sosmed modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header mb--3">
                                     <h5 class="fs-16 fw-medium" id="exampleModalLabel">
-                                        <i class="bi bi-file-earmark-plus me-1"></i>Add Category
+                                        <i class="bi bi-file-earmark-plus me-1"></i>Add Level Teacher
                                     </h5>
                                     <button type="button" class="btn-close fs-12 c-close"
-                                        @click="closeAddCategoryModal"></button>
+                                        @click="closeAddLevelTeachereModal"></button>
                                 </div>
                                 <hr class="mt-0">
-                                <div class="ps-3 mt-3 mb-2">
-                                    <div class="d-flex align-items-center">
-                                        <label for="categoryName" class="me-3 fs-16 mb-0">Name Category</label>
-                                        <input type="text" id="categoryName" class="form-control w-66 h-43"
-                                            placeholder="Enter category name" v-model="form.name" />
+                                <div class="ps-3 pe-4 mt-3 mb-2">
+                                    <div class="d-flex justify-content-between mt-3">
+                                        <label for="categoryName" class="fs-16 mb-0 mt-2">Name Level Teacher</label>
+                                        <input type="text" id="categoryName" class="form-control c-border w-66 h-43"
+                                            placeholder="Name level teacher" />
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-3">
+                                        <label for="categoryName" class="fs-16 mb-0 mt-1">Description</label>
+                                        <textarea class="form-control c-border w-66 rounded-2"
+                                            id="exampleFormControlTextarea1" rows="2" placeholder="Description"
+                                            required></textarea>
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-3">
+                                        <label for="categoryName" class="fs-16 mb-0 mt-2">Number of Courses</label>
+                                        <input type="number" id="categoryName" class="form-control c-border w-66 h-43"
+                                            placeholder="Number of Course" />
+                                    </div>
+                                    <div class="d-flex justify-content-start align-items-center mt-3">
+                                        <label class="fs-16 mb-0 me-5">Level Course</label>
+                                        <div class="d-flex align-items-center">
+                                            <span class="me-1 ms-5">1</span>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="level1" />
+                                                <label class="form-check-label" for="level1"></label>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <span class="me-1 ms-2">2</span>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="level1" />
+                                                <label class="form-check-label" for="level1"></label>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <span class="me-1 ms-2">3</span>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="level1" />
+                                                <label class="form-check-label" for="level1"></label>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <span class="me-1 ms-2">4</span>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="level1" />
+                                                <label class="form-check-label" for="level1"></label>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <span class="me-1 ms-2">5</span>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="level1" />
+                                                <label class="form-check-label" for="level1"></label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-center mb-5">
                                     <ButtonTransparanComponen
                                         class="mt-4 my-0 h-40 w-30 me-5 rounded-3 c-border bg-white fs-16"
-                                        @click="closeAddCategoryModal">Cancel</ButtonTransparanComponen>
-                                    <ButtonBiru class="ms-3 mt-4 my-0 h-40 w-30 rounded-3 fs-16" @click="submitForm">
-                                        Save</ButtonBiru>
+                                        @click="closeAddLevelTeachereModal">Cancel</ButtonTransparanComponen>
+                                    <ButtonBiru class="ms-3 mt-4 my-0 h-40 w-30 rounded-3 fs-16"
+                                        @click="submitLevelTeacherForm">Save</ButtonBiru>
                                 </div>
                             </div>
                         </div>
@@ -295,18 +286,24 @@ onUnmounted(() => {
                                 <thead class="thead-custom">
                                     <tr class="ps-4">
                                         <th class="ps-3 fs-16 fw-light w-1">No</th>
-                                        <th class="fs-16 fw-light w-750">Category Name</th>
+                                        <th class="fs-16 fw-light w-200">Name Level</th>
+                                        <th class="fs-16 fw-light w-200">Description</th>
+                                        <th class="fs-16 fw-light w-200">Number of Courses</th>
+                                        <th class="fs-16 fw-light w-200">Level Category</th>
                                         <th class="ps-4 fs-16 fw-light w-10">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-custom">
                                     <tr v-for="(item, index) in paginatedData" :key="item.id">
                                         <td class="ps-4">{{ (currentPage - 1) * itemsPerPage + index + 1 }}</td>
-                                        <td>{{ item.name }}</td>
+                                        <td>link</td>
+                                        <td>link</td>
+                                        <td>link</td>
+                                        <td>link</td>
                                         <td class="ps-4">
                                             <div class="dropdown-container ps-2">
                                                 <button class="btn border-0 dropdown-toggle" type="button"
-                                                @click="showDropdownMenu">
+                                                    @click="showDropdownMenu">
                                                     <p class="bi bi-three-dots-vertical"
                                                         style="margin-bottom: -8px; margin-top: -5px;"></p>
                                                 </button>
@@ -316,14 +313,14 @@ onUnmounted(() => {
                                                     <h5 class="ms-3 fs-16 fw-normal">Action</h5>
                                                     <li>
                                                         <a class="dropdown-item fw-normal fs-16" href="#"
-                                                            @click="showEditCategoryModal(item)">
+                                                            @click="showEditLevelTeacherModal(item)">
                                                             <i class="bi bi-pencil-square me-1 fs-16"></i>
                                                             Edit
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a class="dropdown-item fw-normal" href="#"
-                                                            @click="showDeleteCategoryModal(item)">
+                                                            @click="showDeleteLevelTeacherModal(item)">
                                                             <i class="bi bi-trash me-1 fs-16"></i>
                                                             Delete
                                                         </a>
@@ -333,25 +330,22 @@ onUnmounted(() => {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="3" class="p-1">
+                                        <td colspan="7" class="p-1">
                                             <nav>
-                                                <div class="d-flex justify-content-between">
+                                                <div class="d-flex justify-content-between align-items-center">
                                                     <div class="d-flex align-items-center">
                                                         <label for="itemsPerPage" class="me-2">Items per page:</label>
-                                                        <select id="itemsPerPage"
-                                                            class="form-select w-auto bg-none border-0"
+                                                        <select id="itemsPerPage" class="form-select w-auto"
                                                             v-model="itemsPerPage">
                                                             <option value="10">10</option>
                                                             <option value="20">20</option>
                                                             <option value="50">50</option>
                                                         </select>
-                                                        <span class="fs-16">{{ (currentPage - 1) * itemsPerPage + 1 }} -
-                                                            {{
-                                                                Math.min(currentPage * itemsPerPage, filteredData.length) }}
-                                                            of
-                                                            {{ filteredData.length }} items</span>
                                                     </div>
-                                                    <ul class="pagination custom-pagination justify-content-end">
+                                                    <span class="fs-16">{{ (currentPage - 1) * itemsPerPage + 1 }} - {{
+                                                        Math.min(currentPage * itemsPerPage, filteredData.length) }} of
+                                                        {{ filteredData.length }} items</span>
+                                                    <ul class="pagination custom-pagination mb-0">
                                                         <li class="page-item" :class="{ disabled: currentPage === 1 }">
                                                             <a class="page-link" href="#"
                                                                 @click.prevent="goToPage(currentPage - 1)">
@@ -381,62 +375,114 @@ onUnmounted(() => {
                             </table>
 
                             <!-- Edit Modal -->
-                            <div v-if="isEditModalVisible" class="modal-backdrop" @click="closeEditCategoryModal"></div>
+                            <div v-if="isEditModalVisible" class="modal-backdrop" @click="closeEditLevelTeacherModal">
+                            </div>
                             <div v-if="isEditModalVisible" class="modal fade show d-block" role="dialog"
                                 aria-labelledby="exampleModalLabel" aria-hidden="false"
-                                @click.self="closeEditCategoryModal">
+                                @click.self="closeEditLevelTeacherModal">
                                 <div class="modal-dialog custom-modal modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header mb--3">
                                             <h5 class="fs-16 fw-medium" id="exampleModalLabel">
-                                                <i class="bi bi-pencil-square me-1"></i>Edit Category
+                                                <i class="bi bi-pencil-square me-1"></i>Edit Level Course
                                             </h5>
                                             <button type="button" class="btn-close fs-12 c-close"
-                                                @click="closeEditCategoryModal"></button>
+                                                @click="closeEditLevelTeacherModal"></button>
                                         </div>
                                         <hr class="mt-0">
-                                        <div class="ps-3 mt-3 mb-2">
-                                            <div class="d-flex align-items-center">
-                                                <label for="editCategoryName" class="me-3 fs-16 mb-0">Name
-                                                    Category</label>
-                                                <input type="text" id="editCategoryName" v-model="currentCategory.name"
-                                                    class="form-control w-66 h-43" placeholder="Enter category name" />
+                                        <div class="ps-3 pe-4 mt-3 mb-2">
+                                            <div class="d-flex justify-content-between mt-3">
+                                                <label for="categoryName" class="fs-16 mb-0 mt-2">Nama Level
+                                                    Teacher</label>
+                                                <input type="text" id="categoryName"
+                                                    class="form-control c-border w-66 h-43"
+                                                    placeholder="Nama level Course" />
+                                            </div>
+                                            <div class="d-flex justify-content-between mt-3">
+                                                <label for="categoryName" class="fs-16 mb-0 mt-1">Description</label>
+                                                <textarea class="form-control c-border w-66 rounded-2"
+                                                    id="exampleFormControlTextarea1" rows="2" placeholder="Description"
+                                                    required></textarea>
+                                            </div>
+                                            <div class="d-flex justify-content-start align-items-center mt-3">
+                                                <label class="fs-16 mb-0 me-5">Level Course</label>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="me-1 ms-5">1</span>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="level1" />
+                                                        <label class="form-check-label" for="level1"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="me-1 ms-2">2</span>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="level1" />
+                                                        <label class="form-check-label" for="level1"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="me-1 ms-2">3</span>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="level1" />
+                                                        <label class="form-check-label" for="level1"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="me-1 ms-2">4</span>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="level1" />
+                                                        <label class="form-check-label" for="level1"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="me-1 ms-2">5</span>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="level1" />
+                                                        <label class="form-check-label" for="level1"></label>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-center mb-5">
                                             <ButtonTransparanComponen
                                                 class="mt-4 my-0 h-40 w-30 me-5 rounded-3 c-border bg-white fs-16"
-                                                @click="closeEditCategoryModal">Cancel</ButtonTransparanComponen>
+                                                @click="closeEditLevelTeacherModal">Cancel
+                                            </ButtonTransparanComponen>
                                             <ButtonBiru class="ms-3 mt-4 my-0 h-40 w-30 rounded-3 fs-16"
-                                                @click="saveCategory">Save</ButtonBiru>
+                                                @click="saveUpdateLevelTeacher">Save</ButtonBiru>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Delete Modal -->
-                            <div v-if="isDeleteModalVisible" class="modal-backdrop" @click="closeDeleteCategoryModal">
+                            <div v-if="isDeleteModalVisible" class="modal-backdrop"
+                                @click="closeDeleteLevelTeacherModal">
                             </div>
                             <div v-if="isDeleteModalVisible" class="modal fade show d-block" role="dialog"
                                 aria-labelledby="deleteModalLabel" aria-hidden="true"
-                                @click.self="closeDeleteCategoryModal">
+                                @click.self="closeDeleteLevelTeacherModal">
                                 <div class="modal-dialog custom-modal modal-dialog-centered">
                                     <div class="modal-content pt-3">
                                         <div
                                             class="modal-header mb-3 d-flex flex-column justify-content-center align-items-center text-center">
                                             <PhTrashSimple :size="50" color="#ff4c4c" />
-                                            <h5 class="mb-4 mt-3 fs-16 fw-medium text-merah">Delete Category</h5>
+                                            <h5 class="mb-4 mt-3 fs-16 fw-medium text-merah">Delete Level Course
+                                            </h5>
                                             <h5 class="fs-16 fw-light opacity-50">
-                                                Are you sure you want to delete this category? Once deleted, this data
+                                                Are you sure you want to delete this Level Course? Once deleted,
+                                                this
+                                                data
                                                 cannot be restored.
                                             </h5>
                                         </div>
                                         <div class="d-flex justify-content-center mb-5">
                                             <ButtonTransparanComponen
                                                 class="my-0 h-40 w-30 me-5 rounded-3 c-border bg-white fs-16"
-                                                @click="closeDeleteCategoryModal">No, Cancel</ButtonTransparanComponen>
+                                                @click="closeDeleteLevelTeacherModal">No, Cancel
+                                            </ButtonTransparanComponen>
                                             <ButtonMerah class="ms-3 my-0 h-40 w-30 rounded-3 fs-16"
-                                                @click="deleteCategory">Yes, Delete</ButtonMerah>
+                                                @click="deleteLevelTeacher">Yes, Delete</ButtonMerah>
                                         </div>
                                     </div>
                                 </div>

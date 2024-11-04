@@ -35,10 +35,10 @@ const saveSosmed = async () => {
         const response = await axios.post('/social-media/update', form.value);
         console.log(response.data.message);
         showToast('Social media updated successfully!');
-        router.push('/cms/sosial-media');
+        router.push('/cms/social-media');
     } catch (error) {
-        console.error('Error add Sosial Media:', error);
-        showToast('Error updated Sosial Media.');
+        console.error('Error add Social Media:', error);
+        showToast('Error updated Social Media.');
     }
 }
 
@@ -83,17 +83,12 @@ onUnmounted(() => {
                             <div class="card rounded-3 p-4 border-0">
                                 <h5 class="fw-light fs-16">Digitefa/CMS/ Social Media</h5>
                                 <h4 class="fs-24">Social Media</h4>
-                                <div class="d-flex justify-content-end">
-                                    <ButtonBiru class="ms-3 mb-4 h-45 px-3 rounded-3 fs-16" type="submit">
-                                        Save
-                                    </ButtonBiru>
-                                </div>
                                 <div class="card bordersa rounded-3 pb-4">
                                     <div class="ps-3 pe-4 mt-3 mb-2">
                                         <div class="d-flex justify-content-between mt-3">
                                             <label for="categoryName" class="fs-16 mb-0 mt-2">No Handphone</label>
                                             <input type="text" id="categoryName" class="form-control c-border w-75 h-43"
-                                                placeholder="No Handphone" v-model="form.phone_number" />
+                                            placeholder="No Handphone" v-model="form.phone_number" />
                                         </div>
                                         <div class="d-flex justify-content-between mt-3">
                                             <label for="categoryName" class="fs-16 mb-0 mt-2">Link Tiktok</label>
@@ -118,10 +113,15 @@ onUnmounted(() => {
                                         <div class="d-flex justify-content-between mt-3">
                                             <label for="categoryName" class="fs-16 mb-0 mt-2">Link Linkedln</label>
                                             <input type="text" id="categoryName" class="form-control c-border w-75 h-43"
-                                                placeholder="Link Linkdln" v-model="form.linkedin" />
+                                            placeholder="Link Linkdln" v-model="form.linkedin" />
                                         </div>
                                     </div>
                                 </div>
+                                <div class="d-flex justify-content-end">
+                                <ButtonBiru class="ms-3 my-3 h-45 px-3 rounded-3 fs-16" type="submit">
+                                    Save
+                                </ButtonBiru>
+                            </div>
                             </div>
                             <div aria-live="polite" aria-atomic="true" class="position-fixed bs-toast">
                                 <div v-if="isToastVisible"

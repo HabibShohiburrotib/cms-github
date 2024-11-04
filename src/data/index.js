@@ -1072,7 +1072,7 @@ export const categoryName = [
   },
 ];
 
-export const CourseManajemen = [
+export const CourseManagement = [
   {
     id: 1,
     image: Image2,

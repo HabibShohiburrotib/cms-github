@@ -26,7 +26,7 @@ const setActiveTab = (tab) => {
 };
 
 const breadcrumbText = computed(() => {
-    return `Digitefa/Course Manajemen/${activeTab.value.charAt(0).toUpperCase() + activeTab.value.slice(1)}`;
+    return `Digitefa/Course Management/${activeTab.value.charAt(0).toUpperCase() + activeTab.value.slice(1)}`;
 });
 </script>
 <template>
@@ -46,7 +46,7 @@ const breadcrumbText = computed(() => {
                     <div class="col-md-12 mt-4 mt-md-0">
                         <div class="card rounded-2 p-4 border-0">
                             <h5 class="fw-light fs-16">{{ breadcrumbText }}</h5>
-                            <h4 class="fs-24">Course Manajemen</h4>
+                            <h4 class="fs-24">Course Management</h4>
                             <div class="card p-3 bordersa mt-2">
                                 <div class="d-flex justify-content-start mt-11 gap-4">
                                     <label class="fs-16 pointer" :class="{ 'active-tab': activeTab === 'quiz' }"

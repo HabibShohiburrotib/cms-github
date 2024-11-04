@@ -15,10 +15,10 @@
                 </router-link>
             </li>
             <li class="ms-18 mt-12">
-                <router-link to="/course-manajemen"
-                    :class="['nav-link fs-16 bi bi-map-fill', isActive('/course-manajemen') ? 'active-sidebar' : 'color-sidebar']">
+                <router-link to="/course-management"
+                    :class="['nav-link fs-16 bi bi-map-fill', isActive('/course-management') ? 'active-sidebar' : 'color-sidebar']">
                     <span class="icon"></span>
-                    <span class="mt-2 text p-absolute">Course Manajemen</span>
+                    <span class="mt-2 text p-absolute">Course Management</span>
                 </router-link>
             </li>
             <li class="ms-18 mt-2">

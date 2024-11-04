@@ -20,6 +20,7 @@ onUnmounted(() => {
 })
 
 </script>
+
 <template>
     <div class="navbg-sa">
         <!-- NAVBAR START -->
@@ -34,7 +35,7 @@ onUnmounted(() => {
         <div id="contentsa" class="dashboard-sa">
             <div class="container mt-80">
                 <div class="row">
-                    <h1> Hlaman Dashboard</h1>
+                    <h3 class="mb-4">Dashboard</h3>
                 </div>
             </div>
         </div>

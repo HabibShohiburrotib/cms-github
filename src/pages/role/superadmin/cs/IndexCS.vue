@@ -4,11 +4,11 @@ import NavbarSA from '@/layout/NavbarSA.vue';
 import SidebarSA from '@/layout/SidebarSA.vue';
 import ButtonBiru from '@/components/ButtonBiru.vue';
 import { ref, onUnmounted, onMounted, computed } from 'vue';
-import { CourseManajemen } from '@/data/index.js';
+import { CourseManagement } from '@/data/index.js';
 import ButtonTransparanComponen from '@/components/ButtonTransparanComponen.vue';
 import ButtonMerah from '@/components/ButtonMerah.vue';
 
-const coursemanajemenData = ref(CourseManajemen)
+const coursemanagementData = ref(CourseManagement)
 const isSidebarVisible = ref(true);
 const courseToDelete = ref(null);
 const isDeleteModalVisible = ref(false);
@@ -117,8 +117,8 @@ onUnmounted(() => {
                 <div class="row">
                     <div class="col-md-12 mt-4 mt-md-0">
                         <div class="card rounded-2 p-4 border-0">
-                            <h5 class="fw-light fs-16">Digitefa/Course Manajemen</h5>
-                            <h4 class="fs-24">Course Manajemen</h4>
+                            <h5 class="fw-light fs-16">Digitefa/Course Management</h5>
+                            <h4 class="fs-24">Course Management</h4>
                             <div class="d-flex justify-content-end">
                                 <div class="search-input w-25 me-md-1">
                                     <input type="text" class="form-control rounded-3 h-45 c-border"
@@ -130,8 +130,9 @@ onUnmounted(() => {
                                     <option value="oldest">Oldest</option>
                                 </select>
                                 <ButtonBiru class="ms-3 mb-4 h-45 px-3 rounded-3 fs-16" @click="showAddPage">
-                                    Add Course
+                                    + Add Course
                                 </ButtonBiru>
+
                             </div>
                             <div class="col-md-12 mt-4 mt-md-0">
                                 <div class="table-responsive">
@@ -145,7 +146,7 @@ onUnmounted(() => {
                                             </tr>
                                         </thead>
                                         <tbody class="table-custom">
-                                            <tr v-for="(course, index) in coursemanajemenData" :key="course.id">
+                                            <tr v-for="(course, index) in coursemanagementData" :key="course.id">
                                                 <td class="ps-4 pt-4">{{ index + 1 }}</td>
                                                 <td>
                                                     <div class="d-flex align-items-center">
@@ -161,36 +162,36 @@ onUnmounted(() => {
                                                 <td class="pt-4 fs-16">
                                                     {{ course.teacher }}
                                                 </td>
-                                                <td class="pt-18">
-                                                    <button class="border-0 rounded-2 mx-1 btn-history">
+                                                <td class="ps-4 pt-4">
+                                                    <button class="border-0 rounded-2 me-1" style="background-color: #06A73B; height: 30px; width: 30px; color:white;">
                                                         <i class="bi bi-stopwatch"></i>
                                                     </button>
-                                                    <button class="border-0 rounded-2 btn-trash"
+                                                    <button class="border-0 rounded-2" style="background-color: #FF0000; height: 30px; width: 30px; color:white;"
                                                         @click="showDeleteLevelCourseModal(item)">
                                                         <i class="bi bi-trash"></i>
                                                     </button>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="4" class="p-1">
+                                                <td colspan="7" class="p-1">
                                                     <nav>
-                                                        <div class="d-flex justify-content-between">
+                                                        <div class="d-flex justify-content-between align-items-center">
                                                             <div class="d-flex align-items-center">
                                                                 <label for="itemsPerPage" class="me-2">Items per
                                                                     page:</label>
-                                                                <select id="itemsPerPage"
-                                                                    class="form-select w-auto bg-none border-0">
+                                                                <select id="itemsPerPage" class="form-select w-auto"
+                                                                    v-model="itemsPerPage">
                                                                     <option value="10">10</option>
                                                                     <option value="20">20</option>
                                                                     <option value="50">50</option>
                                                                 </select>
-                                                                <span class="fs-16">1 - 1
-
-                                                                    of
-                                                                    items</span>
                                                             </div>
-                                                            <ul
-                                                                class="pagination custom-pagination justify-content-end">
+                                                            <span class="fs-16">{{ (currentPage - 1) * itemsPerPage + 1
+                                                                }} - {{
+                                                                    Math.min(currentPage * itemsPerPage,
+                                                                filteredData.length) }} of
+                                                                {{ filteredData.length }} items</span>
+                                                            <ul class="pagination custom-pagination mb-0">
                                                                 <li class="page-item"
                                                                     :class="{ disabled: currentPage === 1 }">
                                                                     <a class="page-link" href="#"
@@ -257,16 +258,16 @@ onUnmounted(() => {
             </div>
         </div>
         <div aria-live="polite" aria-atomic="true" class="position-fixed bs-toast">
-        <div v-if="isToastVisible" class="toast align-items-center text-white bg-light-success border-0 show"
-            role="alert">
-            <div class="d-flex">
-                <div class="toast-body">
-                    {{ toastMessage }}
+            <div v-if="isToastVisible" class="toast align-items-center text-white bg-light-success border-0 show"
+                role="alert">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ toastMessage }}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" @click="closeToast"
+                        aria-label="Close"></button>
                 </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" @click="closeToast"
-                    aria-label="Close"></button>
             </div>
         </div>
-    </div>
     </div>
 </template>

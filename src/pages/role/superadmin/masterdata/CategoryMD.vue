@@ -1,13 +1,14 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import NavbarAdmin from '@/layout/NavbarSA.vue';
-import SidebarTeacher from '@/layout/SidebarTeacher.vue';
+import SidebarSA from '@/layout/SidebarSA.vue';
 import ButtonBiru from '@/components/ButtonBiru.vue';
 import ButtonTransparanComponen from '@/components/ButtonTransparanComponen.vue';
 import ButtonMerah from '@/components/ButtonMerah.vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 
+const isSidebarVisible = ref(true);
 const categoryData = ref([]);
 const router = useRouter();
 const searchQuery = ref('');
@@ -17,14 +18,36 @@ const currentCategory = ref(null);
 const isDeleteModalVisible = ref(false);
 const categoryToDelete = ref(null);
 const isToastVisible = ref(false);
+const toastMessage = ref('');
 const selectedSort = ref('Sort');
 const currentPage = ref(1);
 const itemsPerPage = 10;
 const totalPages = computed(() => Math.ceil(filteredData.value.length / itemsPerPage));
+const dropdownVisible = ref(false);
+const dropdownPosition = ref({ top: '0px', left: '0px' });
 
 const form = ref({
     name: '',
 });
+
+const showDropdownMenu = (event) => {
+    const buttonRect = event.target.getBoundingClientRect();
+    dropdownPosition.value = {
+        top: `${buttonRect.bottom}px`,
+        left: `${buttonRect.left - 130}px`
+    };
+    dropdownVisible.value = true;
+};
+
+const hideDropdownMenu = () => {
+    dropdownVisible.value = false;
+};
+
+const handleClickOutside = (event) => {
+    if (!event.target.closest('.dropdown-container')) {
+        hideDropdownMenu();
+    }
+};
 
 const filteredData = computed(() => {
     let sortedData = [...categoryData.value];
@@ -79,14 +102,15 @@ const submitForm = async () => {
         const response = await axios.post('/categories', form.value);
         console.log(response.data.message);
         closeAddCategoryModal();
-        showToast();
+        showToast('Add Category successfully!');
 
         form.value.name = '';
         await fetchCategoryData();
 
-        router.push('/dashboard-superadmin');
+        router.push('/master-data/category');
     } catch (error) {
-        console.error('Error creating Category entry:', error.response?.data?.message || error.message);
+        console.error('Error deleting category:', error);
+        showToast('Error Add Category.');
     }
 };
 
@@ -112,9 +136,11 @@ const saveCategory = async () => {
             });
             fetchCategoryData();
             closeEditCategoryModal();
+            showToast('Updated Category successfully!');
         }
     } catch (error) {
         console.error('Error updating category:', error);
+        showToast('Error Updated Category.');
     }
 };
 
@@ -158,13 +184,16 @@ const deleteCategory = async () => {
             await axios.delete(`/categories/${categoryToDelete.value.id_category}`);
             fetchCategoryData();
             closeModal();
+            showToast('Category deleted successfully!');
         }
     } catch (error) {
         console.error('Error deleting category:', error);
+        showToast('Error deleting Category.');
     }
 };
 
-const showToast = () => {
+const showToast = (message) => {
+    toastMessage.value = message;
     isToastVisible.value = true;
     setTimeout(() => {
         isToastVisible.value = false;
@@ -181,6 +210,22 @@ const closeModal = () => {
 onMounted(() => {
     fetchCategoryData();
 });
+
+const checkWindowSize = () => {
+    isSidebarVisible.value = window.innerWidth >= 770;
+};
+
+onMounted(() => {
+    checkWindowSize();
+    window.addEventListener('resize', checkWindowSize);
+    document.addEventListener('click', handleClickOutside);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('resize', checkWindowSize);
+    document.removeEventListener('click', handleClickOutside);
+})
+
 </script>
 
 <template>
@@ -190,20 +235,20 @@ onMounted(() => {
         <!-- NAVBAR END -->
 
         <!-- SIDEBAR START -->
-        <SidebarTeacher />
+        <SidebarSA v-if="isSidebarVisible" />
         <!-- SIDEBAR END -->
 
-        <div id="content" class="dashboard-sa">
+        <div id="contentsa" class="dashboard-sa">
             <div class="container mt-80">
                 <div class="row">
                     <div class="d-flex justify-content-between mb-3">
                         <div class="d-flex justify-content-start">
-                            <div class="search-input w-25 me-md-1">
-                                <input type="text" class="form-control rounded-3 h-40" v-model="searchQuery"
+                            <div class="search-input w-50 me-md-1">
+                                <input type="text" class="form-control c-border rounded-3 h-40" v-model="searchQuery"
                                     placeholder="Search" />
                                 <i class="bi bi-search"></i>
                             </div>
-                            <select class="form-select w-25 c-border ms-2" v-model="selectedSort">
+                            <select class="form-select w-30 c-border h-40 ms-2" v-model="selectedSort">
                                 <option selected>Sort</option>
                                 <option value="newest">Newest</option>
                                 <option value="oldest">Oldest</option>
@@ -236,10 +281,10 @@ onMounted(() => {
                                 </div>
                                 <div class="d-flex justify-content-center mb-5">
                                     <ButtonTransparanComponen
-                                        class="mt-4 my-0 h-40 w-30 me-5 rounded-3 c-border bg-white fs-16 fw-medium"
+                                        class="mt-4 my-0 h-40 w-30 me-5 rounded-3 c-border bg-white fs-16"
                                         @click="closeAddCategoryModal">Cancel</ButtonTransparanComponen>
-                                    <ButtonBiru class="ms-3 mt-4 my-0 h-40 w-30 rounded-3 fs-16 fw-medium"
-                                        @click="submitForm">Save</ButtonBiru>
+                                    <ButtonBiru class="ms-3 mt-4 my-0 h-40 w-30 rounded-3 fs-16" @click="submitForm">
+                                        Save</ButtonBiru>
                                 </div>
                             </div>
                         </div>
@@ -249,9 +294,9 @@ onMounted(() => {
                             <table class="table custom-table rounded-4">
                                 <thead class="thead-custom">
                                     <tr class="ps-4">
-                                        <th class="ps-3 fs-16 fw-medium" style="width: 1px;">No</th>
-                                        <th class="fs-16 fw-medium" style="width: 750px;">Category Name</th>
-                                        <th class="ps-4 fs-16 fw-medium" style="width: 10px;">Action</th>
+                                        <th class="ps-3 fs-16 fw-light w-1">No</th>
+                                        <th class="fs-16 fw-light w-750">Category Name</th>
+                                        <th class="ps-4 fs-16 fw-light w-10">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-custom">
@@ -259,13 +304,15 @@ onMounted(() => {
                                         <td class="ps-4">{{ (currentPage - 1) * itemsPerPage + index + 1 }}</td>
                                         <td>{{ item.name }}</td>
                                         <td class="ps-4">
-                                            <div class="dropdown ps-2">
+                                            <div class="dropdown-container ps-2">
                                                 <button class="btn border-0 dropdown-toggle" type="button"
-                                                    data-bs-toggle="dropdown">
+                                                    @click="showDropdownMenu">
                                                     <p class="bi bi-three-dots-vertical"
                                                         style="margin-bottom: -8px; margin-top: -5px;"></p>
                                                 </button>
-                                                <ul class="dropdown-menu border-0">
+                                                <ul v-if="dropdownVisible" class="fixed-dropdown dropdown-menu"
+                                                    style="display: block"
+                                                    :style="{ top: dropdownPosition.top, left: dropdownPosition.left }">
                                                     <h5 class="ms-3 fs-16 fw-normal">Action</h5>
                                                     <li>
                                                         <a class="dropdown-item fw-normal fs-16" href="#"
@@ -286,29 +333,44 @@ onMounted(() => {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="3" class="p-1">
+                                        <td colspan="7" class="p-1">
                                             <nav>
-                                                <ul class="pagination custom-pagination justify-content-center">
-                                                    <li class="page-item" :class="{ disabled: currentPage === 1 }">
-                                                        <a class="page-link" href="#"
-                                                            @click.prevent="goToPage(currentPage - 1)">
-                                                            <i class="bi bi-chevron-left"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li v-for="page in pageNumbers" :key="page" class="page-item"
-                                                        :class="{ active: page === currentPage }">
-                                                        <a class="page-link" href="#" @click.prevent="goToPage(page)"
-                                                            v-if="page !== '...'">{{ page }}</a>
-                                                        <span class="page-link" v-else>...</span>
-                                                    </li>
-                                                    <li class="page-item"
-                                                        :class="{ disabled: currentPage === totalPages }">
-                                                        <a class="page-link" href="#"
-                                                            @click.prevent="goToPage(currentPage + 1)">
-                                                            <i class="bi bi-chevron-right"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div class="d-flex align-items-center">
+                                                        <label for="itemsPerPage" class="me-2">Items per page:</label>
+                                                        <select id="itemsPerPage" class="form-select w-auto"
+                                                            v-model="itemsPerPage">
+                                                            <option value="10">10</option>
+                                                            <option value="20">20</option>
+                                                            <option value="50">50</option>
+                                                        </select>
+                                                    </div>
+                                                    <span class="fs-16">{{ (currentPage - 1) * itemsPerPage + 1 }} - {{
+                                                        Math.min(currentPage * itemsPerPage, filteredData.length) }} of
+                                                        {{ filteredData.length }} items</span>
+                                                    <ul class="pagination custom-pagination mb-0">
+                                                        <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                                                            <a class="page-link" href="#"
+                                                                @click.prevent="goToPage(currentPage - 1)">
+                                                                <i class="bi bi-chevron-left"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li v-for="page in pageNumbers" :key="page" class="page-item"
+                                                            :class="{ active: page === currentPage }">
+                                                            <a class="page-link" href="#"
+                                                                @click.prevent="goToPage(page)" v-if="page !== '...'">{{
+                                                                    page }}</a>
+                                                            <span class="page-link" v-else>...</span>
+                                                        </li>
+                                                        <li class="page-item"
+                                                            :class="{ disabled: currentPage === totalPages }">
+                                                            <a class="page-link" href="#"
+                                                                @click.prevent="goToPage(currentPage + 1)">
+                                                                <i class="bi bi-chevron-right"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </nav>
                                         </td>
                                     </tr>
@@ -340,9 +402,9 @@ onMounted(() => {
                                         </div>
                                         <div class="d-flex justify-content-center mb-5">
                                             <ButtonTransparanComponen
-                                                class="mt-4 my-0 h-40 w-30 me-5 rounded-3 c-border bg-white fs-16 fw-medium"
+                                                class="mt-4 my-0 h-40 w-30 me-5 rounded-3 c-border bg-white fs-16"
                                                 @click="closeEditCategoryModal">Cancel</ButtonTransparanComponen>
-                                            <ButtonBiru class="ms-3 mt-4 my-0 h-40 w-30 rounded-3 fs-16 fw-medium"
+                                            <ButtonBiru class="ms-3 mt-4 my-0 h-40 w-30 rounded-3 fs-16"
                                                 @click="saveCategory">Save</ButtonBiru>
                                         </div>
                                     </div>
@@ -368,9 +430,9 @@ onMounted(() => {
                                         </div>
                                         <div class="d-flex justify-content-center mb-5">
                                             <ButtonTransparanComponen
-                                                class="my-0 h-40 w-30 me-5 rounded-3 c-border bg-white fs-16 fw-medium"
+                                                class="my-0 h-40 w-30 me-5 rounded-3 c-border bg-white fs-16"
                                                 @click="closeDeleteCategoryModal">No, Cancel</ButtonTransparanComponen>
-                                            <ButtonMerah class="ms-3 my-0 h-40 w-30 rounded-3 fs-16 fw-medium"
+                                            <ButtonMerah class="ms-3 my-0 h-40 w-30 rounded-3 fs-16"
                                                 @click="deleteCategory">Yes, Delete</ButtonMerah>
                                         </div>
                                     </div>
@@ -382,20 +444,7 @@ onMounted(() => {
                                     role="alert">
                                     <div class="d-flex">
                                         <div class="toast-body">
-                                            Category deleted successfully!
-                                        </div>
-                                        <button type="button" class="btn-close btn-close-white me-2 m-auto"
-                                            @click="closeToast" aria-label="Close"></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div aria-live="polite" aria-atomic="true" class="position-fixed bs-toast">
-                                <div v-if="isToastVisible"
-                                    class="toast align-items-center text-white bg-light-success border-0 show"
-                                    role="alert">
-                                    <div class="d-flex">
-                                        <div class="toast-body">
-                                            Add Category successfully!
+                                            {{ toastMessage }}
                                         </div>
                                         <button type="button" class="btn-close btn-close-white me-2 m-auto"
                                             @click="closeToast" aria-label="Close"></button>
@@ -409,99 +458,3 @@ onMounted(() => {
         </div>
     </div>
 </template>
-
-<!-- 
-<style scoped>
-.bg-light-success {
-    background-color: #28a745 !important;
-}
-
-.modal-backdrop {
-    background-color: rgba(0, 0, 0, 0.3);
-}
-
-.modal-content {
-    background-color: white;
-}
-
-.custom-table {
-    border-radius: 16px;
-    overflow: hidden;
-}
-
-.table-custom .dropdown-menu {
-    position: absolute !important;
-    margin-top: -22px !important;
-    margin-right: 30px !important;
-    background: #E9E9E9;
-}
-
-.thead-custom {
-    background-color: rgba(216, 216, 216, 1) !important;
-}
-
-.thead-custom tr,
-.thead-custom th {
-    background-color: rgba(233, 233, 233, 1) !important;
-    border-bottom: #A8A8A8;
-}
-
-/* .table-custom {
-    background-color: #28a745 !important;
-}
-.table-custom td,
-.table-custom th {
-    background-color: #28a745 !important;
-} */
-
-.table-custom tr:last-of-type td {
-    background-color: rgba(233, 233, 233, 1) !important;
-    padding: 5px !important;
-}
-
-.table-custom thead {
-    background-color: rgba(216, 216, 216, 1) !important;
-    color: white;
-}
-
-.custom-modal {
-    max-width: 500px;
-    width: 100%;
-}
-
-.custom-pagination .page-link {
-    height: 30px;
-    width: 30px;
-    line-height: 15px;
-    font-size: 15px;
-}
-
-.table-custom {
-    border-radius: 16px;
-    overflow: hidden;
-}
-
-.table-custom thead {
-    border-top-left-radius: 16px;
-    border-top-right-radius: 16px;
-    overflow: hidden;
-}
-
-.table-custom th {
-    border: none;
-}
-
-.table-custom td {
-    border-top: 1px solid #A8A8A8;
-}
-
-.table-custom tbody tr td:first-child,
-.table-custom tbody tr td:nth-child(2),
-.table-custom tbody tr td:last-child {
-    border-right: none;
-}
-
-.pagination {
-    margin: 0;
-}
-</style> -->

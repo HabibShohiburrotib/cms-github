@@ -164,22 +164,21 @@ const closeModal = () => {
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="5" class="p-1">
+                        <td colspan="7" class="p-1">
                             <nav>
-                                <div class="d-flex justify-content-between">
+                                <div class="d-flex justify-content-between align-items-center">
                                     <div class="d-flex align-items-center">
                                         <label for="itemsPerPage" class="me-2">Items per page:</label>
-                                        <select id="itemsPerPage" class="form-select w-auto bg-none border-0"
-                                            v-model="itemsPerPage">
+                                        <select id="itemsPerPage" class="form-select w-auto" v-model="itemsPerPage">
                                             <option value="10">10</option>
                                             <option value="20">20</option>
                                             <option value="50">50</option>
                                         </select>
-                                        <span class="fs-16">{{ (currentPage - 1) * itemsPerPage + 1 }} -
-                                            {{ Math.min(currentPage * itemsPerPage, filteredData.length) }} of
-                                            {{ filteredData.length }} items</span>
                                     </div>
-                                    <ul class="pagination custom-pagination justify-content-end">
+                                    <span class="fs-16">{{ (currentPage - 1) * itemsPerPage + 1 }} - {{
+                                        Math.min(currentPage * itemsPerPage, filteredData.length) }} of
+                                        {{ filteredData.length }} items</span>
+                                    <ul class="pagination custom-pagination mb-0">
                                         <li class="page-item" :class="{ disabled: currentPage === 1 }">
                                             <a class="page-link" href="#" @click.prevent="goToPage(currentPage - 1)">
                                                 <i class="bi bi-chevron-left"></i>
@@ -188,7 +187,8 @@ const closeModal = () => {
                                         <li v-for="page in pageNumbers" :key="page" class="page-item"
                                             :class="{ active: page === currentPage }">
                                             <a class="page-link" href="#" @click.prevent="goToPage(page)"
-                                                v-if="page !== '...'">{{ page }}</a>
+                                                v-if="page !== '...'">{{
+                                                    page }}</a>
                                             <span class="page-link" v-else>...</span>
                                         </li>
                                         <li class="page-item" :class="{ disabled: currentPage === totalPages }">

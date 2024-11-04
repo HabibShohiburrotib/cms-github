@@ -1,22 +1,19 @@
 <script setup>
-import axios from 'axios';
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import NavbarAdmin from '@/layout/NavbarSA.vue';
 import SidebarSA from '@/layout/SidebarSA.vue';
 import ButtonBiru from '@/components/ButtonBiru.vue';
 import ButtonTransparanComponen from '@/components/ButtonTransparanComponen.vue';
 import ButtonMerah from '@/components/ButtonMerah.vue';
-import { useRouter } from 'vue-router';
 
-const router = useRouter();
 const isSidebarVisible = ref(true);
-const levelcourseData = ref([]);
+const toolsData = ref([]);
 const searchQuery = ref('');
 const isModalVisible = ref(false);
 const isEditModalVisible = ref(false);
-const currentLevelCourse = ref(null);
+const currentTools = ref(null);
 const isDeleteModalVisible = ref(false);
-const levelcourseToDelete = ref(null);
+const toolsToDelete = ref(null);
 const isToastVisible = ref(false);
 const selectedSort = ref('Sort');
 const toastMessage = ref('');
@@ -26,13 +23,9 @@ const totalPages = computed(() => Math.ceil(filteredData.value.length / itemsPer
 const dropdownVisible = ref(false);
 const dropdownPosition = ref({ top: '0px', left: '0px' });
 
-const form = ref({
-    name: '',
-    point_course_content: '',
-    point_assignment: '',
-    point_quiz: '',
-    point_course_completion: '',
-});
+// const form = ref({
+
+// });
 
 const showDropdownMenu = (event) => {
     const buttonRect = event.target.getBoundingClientRect();
@@ -54,14 +47,14 @@ const handleClickOutside = (event) => {
 };
 
 const filteredData = computed(() => {
-    let sortedData = [...levelcourseData.value];
+    let sortedData = [...toolsData.value];
     if (selectedSort.value === 'newest') {
         sortedData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
     } else if (selectedSort.value === 'oldest') {
         sortedData.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
     }
-    return sortedData.filter(levelcourse =>
-        levelcourse.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+    return sortedData.filter(tools =>
+        tools.name.toLowerCase().includes(searchQuery.value.toLowerCase())
     );
 });
 
@@ -92,88 +85,50 @@ const pageNumbers = computed(() => {
     return pages;
 });
 
-const fetchLevelCourseData = async () => {
-    try {
-        const response = await axios.get('/course-levels');
-        levelcourseData.value = response.data;
-    } catch (error) {
-        console.error('Error fetching Level Course data:', error);
-    }
+const fetchToolsData = async () => {
+
 };
 
-const submitLevelCourseForm = async () => {
-    try {
-        const response = await axios.post('/course-levels', form.value);
-        console.log(response.data.message);
-        closeAddLevelCourseModal();
-        showToast('Add Level Course successfully!');
+const submitToolsForm = async () => {
 
-        form.value.name = '';
-        form.value.point_course_content = '';
-        form.value.point_assignment = '';
-        form.value.point_quiz = '';
-        form.value.point_course_completion = '';
-        await fetchLevelCourseData();
-
-        router.push('/master-data/level-course');
-    } catch (error) {
-        console.error('Error deleting Level Course:', error);
-        showToast('Error Add Level Course.');
-    }
 };
 
-const showAddLevelCourseModal = () => {
+const showAddToolsModal = () => {
     isModalVisible.value = true;
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
     document.body.style.paddingRight = '15px';
 };
 
-const closeAddLevelCourseModal = () => {
+const closeAddToolsModal = () => {
     isModalVisible.value = false;
     document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
     document.body.style.paddingRight = '';
 };
 
-const saveUpdateLevelCourse = async () => {
-    try {
-        if (currentLevelCourse.value) {
-            await axios.post(`/course-levels/${currentLevelCourse.value.id_course_level}`, {
-                name: currentLevelCourse.value.name,
-                point_course_content: currentLevelCourse.value.point_course_content,
-                point_assignment: currentLevelCourse.value.point_assignment,
-                point_quiz: currentLevelCourse.value.point_quiz,
-                point_course_completion: currentLevelCourse.value.point_course_completion,
-            });
-            fetchLevelCourseData();
-            closeEditLevelCourseModal();
-            showToast('Updated Course Level successfully!');
-        }
-    } catch (error) {
-        console.error('Error updating Level Course:', error);
-        showToast('Error Updated Level Course.');
-    }
+const saveUpdateSkills = async () => {
+
 };
 
-const showEditLevelCourseModal = (levelcourse) => {
-    currentLevelCourse.value = { ...levelcourse };
+const showEditToolsModal = (tools) => {
+    currentTools.value = { ...tools };
     isEditModalVisible.value = true;
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
     document.body.style.paddingRight = '15px';
 };
 
-const closeEditLevelCourseModal = () => {
+const closeEditToolsModal = () => {
     isEditModalVisible.value = false;
-    currentLevelCourse.value = null;
+    currentTools.value = null;
     document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
     document.body.style.paddingRight = '';
 };
 
-const showDeleteLevelCourseModal = (levelcourse) => {
-    levelcourseToDelete.value = levelcourse;
+const showDeleteTools = (tools) => {
+    toolsToDelete.value = tools;
     isDeleteModalVisible.value = true;
 
     document.documentElement.style.overflow = 'hidden';
@@ -181,46 +136,20 @@ const showDeleteLevelCourseModal = (levelcourse) => {
     document.body.style.paddingRight = '15px';
 };
 
-const closeDeleteLevelCourseModal = () => {
+const closeDeleteToolsModal = () => {
     isDeleteModalVisible.value = false;
-    levelcourseToDelete.value = null;
+    toolsToDelete.value = null;
 
     document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
     document.body.style.paddingRight = '';
 };
 
-const deleteCourse = async () => {
-    try {
-        if (levelcourseToDelete.value) {
-            await axios.delete(`/course-levels/${levelcourseToDelete.value.id_course_level}`);
-            fetchLevelCourseData();
-            closeModal();
-            showToast('Courses Level deleted successfully!');
-        }
-    } catch (error) {
-        console.error('Error deleting Course Level:', error);
-        showToast('Error deleting Courses Level.');
-    }
-};
-
-const showToast = (message) => {
-    toastMessage.value = message;
-    isToastVisible.value = true;
-    setTimeout(() => {
-        isToastVisible.value = false;
-    }, 3000);
-};
-
-const closeModal = () => {
-    isDeleteModalVisible.value = false;
-    document.documentElement.style.overflow = '';
-    document.body.style.overflow = '';
-    document.body.style.paddingRight = '';
+const deleteTools = async () => {
 };
 
 onMounted(() => {
-    fetchLevelCourseData();
+    fetchToolsData();
 });
 
 const checkWindowSize = () => {
@@ -259,63 +188,53 @@ onUnmounted(() => {
                                     placeholder="Search" />
                                 <i class="bi bi-search"></i>
                             </div>
-                            <select class="form-select w-25 c-border h-40 ms-2" v-model="selectedSort">
+                            <select class="form-select w-30 c-border h-40 ms-2" v-model="selectedSort">
                                 <option selected>Sort</option>
                                 <option value="newest">Newest</option>
                                 <option value="oldest">Oldest</option>
                             </select>
                         </div>
-                        <ButtonBiru class="fs-16 px-3 rounded-3 h-43" @click="showAddLevelCourseModal">Add Level Course
+                        <ButtonBiru class="fs-16 px-3 rounded-3 h-43" @click="showAddToolsModal">Add Tools
                         </ButtonBiru>
                     </div>
 
                     <!-- Add Modal -->
-                    <div v-if="isModalVisible" class="modal-backdrop" @click="closeAddLevelCourseModal"></div>
+                    <div v-if="isModalVisible" class="modal-backdrop" @click="closeAddToolsModal"></div>
                     <div v-if="isModalVisible" class="modal fade show d-block" role="dialog"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true" @click.self="closeAddLevelCourseModal">
-                        <div class="modal-dialog custom-modal-sosmed modal-dialog-centered">
+                        aria-labelledby="exampleModalLabel" aria-hidden="true" @click.self="closeAddToolsModal">
+                        <div class="modal-dialog custom-modal modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header mb--3">
                                     <h5 class="fs-16 fw-medium" id="exampleModalLabel">
-                                        <i class="bi bi-file-earmark-plus me-1"></i>Add Level Course
+                                        <i class="bi bi-file-earmark-plus me-1"></i>Add Tools
                                     </h5>
                                     <button type="button" class="btn-close fs-12 c-close"
-                                        @click="closeAddLevelCourseModal"></button>
+                                        @click="closeAddToolsModal"></button>
                                 </div>
                                 <hr class="mt-0">
                                 <div class="ps-3 pe-4 mt-3 mb-2">
-                                    <div class="d-flex justify-content-between mt-3">
-                                        <label for="categoryName" class="fs-16 mb-0 mt-2">Nama Level Course</label>
-                                        <input type="text" id="categoryName" class="form-control c-border w-66 h-43"
-                                            placeholder="Nama level Course" v-model="form.name" />
+                                    <div class="d-flex align-items-center">
+                                        <label for="mediapartnerName" class="me-5 fs-16 mb-0">Name</label>
+                                        <input type="text" id="mediapartnerName"
+                                            class="form-control w-100 h-45 c-border"
+                                            placeholder="Enter media partner name" />
                                     </div>
-                                    <div class="d-flex justify-content-between mt-3">
-                                        <label for="categoryName" class="fs-16 mb-0 mt-2">Point Learning</label>
-                                        <input type="text" id="categoryName" class="form-control c-border w-66 h-43"
-                                            placeholder="Point Learning" v-model="form.point_course_content" />
-                                    </div>
-                                    <div class="d-flex justify-content-between mt-3">
-                                        <label for="categoryName" class="fs-16 mb-0 mt-2">Point Quiz</label>
-                                        <input type="text" id="categoryName" class="form-control c-border w-66 h-43"
-                                            placeholder="Point Quiz" v-model="form.point_quiz" />
-                                    </div>
-                                    <div class="d-flex justify-content-between mt-3">
-                                        <label for="categoryName" class="fs-16 mb-0 mt-2">Point Assignment</label>
-                                        <input type="text" id="categoryName" class="form-control c-border w-66 h-43"
-                                            placeholder="Point Assignment" v-model="form.point_assignment" />
-                                    </div>
-                                    <div class="d-flex justify-content-between mt-3">
-                                        <label for="categoryName" class="fs-16 mb-0 mt-2">Point Completion</label>
-                                        <input type="text" id="categoryName" class="form-control c-border w-66 h-43"
-                                            placeholder="Point Completion" v-model="form.point_course_completion" />
+                                    <div class="d-flex align-items-center mt-3">
+                                        <label for="categoryName" class="fs-16 mb-0 me-60">Logo</label>
+                                        <input type="file" id="fileInput" class="hidden" accept="image/*"
+                                            @change="handleFileUpload" />
+                                        <button type="button" class="btn c-border px-4 py-2"
+                                            onclick="document.getElementById('fileInput').click();">
+                                            Upload
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-center mb-5">
                                     <ButtonTransparanComponen
                                         class="mt-4 my-0 h-40 w-30 me-5 rounded-3 c-border bg-white fs-16"
-                                        @click="closeAddLevelCourseModal">Cancel</ButtonTransparanComponen>
+                                        @click="closeAddToolsModal">Cancel</ButtonTransparanComponen>
                                     <ButtonBiru class="ms-3 mt-4 my-0 h-40 w-30 rounded-3 fs-16"
-                                        @click="submitLevelCourseForm">Save</ButtonBiru>
+                                        @click="submitToolsForm">Save</ButtonBiru>
                                 </div>
                             </div>
                         </div>
@@ -325,27 +244,23 @@ onUnmounted(() => {
                             <table class="table custom-table rounded-4">
                                 <thead class="thead-custom">
                                     <tr class="ps-4">
-                                        <th class="ps-3 fs-16 fw-light w-1">No</th>
-                                        <th class="fs-16 fw-light w-200">Nama Level</th>
-                                        <th class="fs-16 fw-light w-200">Point Learning</th>
-                                        <th class="fs-16 fw-light w-200">Point Quiz</th>
-                                        <th class="fs-16 fw-light w-200">Point Assignment</th>
-                                        <th class="fs-16 fw-light w-200">Point Completion</th>
+                                        <th class="ps-3 fs-16 fw-medium w-1">No</th>
+                                        <th class="fs-16 fw-light w-200">Logo Company</th>
+                                        <th class="fs-16 fw-light w-400">Name Company</th>
                                         <th class="ps-4 fs-16 fw-light w-10">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-custom">
                                     <tr v-for="(item, index) in paginatedData" :key="item.id">
                                         <td class="ps-4">{{ (currentPage - 1) * itemsPerPage + index + 1 }}</td>
-                                        <td>{{ item.name }}</td>
-                                        <td>{{ item.point_course_content }} point</td>
-                                        <td>{{ item.point_quiz }} point/Question</td>
-                                        <td>{{ item.point_assignment }} point</td>
-                                        <td>{{ item.point_course_completion }} point</td>
+                                        <td> <img
+                                                :src="`${axios.defaults.baseURL.replace('/api', '')}/storage/uploads/${item.image}`"
+                                                class="rounded-3 image-tabel-sa"></td>
+                                        <td>link</td>
                                         <td class="ps-4">
                                             <div class="dropdown-container ps-2">
                                                 <button class="btn border-0 dropdown-toggle" type="button"
-                                                @click="showDropdownMenu">
+                                                    @click="showDropdownMenu">
                                                     <p class="bi bi-three-dots-vertical"
                                                         style="margin-bottom: -8px; margin-top: -5px;"></p>
                                                 </button>
@@ -355,14 +270,14 @@ onUnmounted(() => {
                                                     <h5 class="ms-3 fs-16 fw-normal">Action</h5>
                                                     <li>
                                                         <a class="dropdown-item fw-normal fs-16" href="#"
-                                                            @click="showEditLevelCourseModal(item)">
+                                                            @click="showEditToolsModal(item)">
                                                             <i class="bi bi-pencil-square me-1 fs-16"></i>
                                                             Edit
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a class="dropdown-item fw-normal" href="#"
-                                                            @click="showDeleteLevelCourseModal(item)">
+                                                            @click="showDeleteTools(item)">
                                                             <i class="bi bi-trash me-1 fs-16"></i>
                                                             Delete
                                                         </a>
@@ -374,23 +289,20 @@ onUnmounted(() => {
                                     <tr>
                                         <td colspan="7" class="p-1">
                                             <nav>
-                                                <div class="d-flex justify-content-between">
+                                                <div class="d-flex justify-content-between align-items-center">
                                                     <div class="d-flex align-items-center">
                                                         <label for="itemsPerPage" class="me-2">Items per page:</label>
-                                                        <select id="itemsPerPage"
-                                                            class="form-select w-auto bg-none border-0"
+                                                        <select id="itemsPerPage" class="form-select w-auto"
                                                             v-model="itemsPerPage">
                                                             <option value="10">10</option>
                                                             <option value="20">20</option>
                                                             <option value="50">50</option>
                                                         </select>
-                                                        <span class="fs-16">{{ (currentPage - 1) * itemsPerPage + 1 }} -
-                                                            {{
-                                                                Math.min(currentPage * itemsPerPage, filteredData.length) }}
-                                                            of
-                                                            {{ filteredData.length }} items</span>
                                                     </div>
-                                                    <ul class="pagination custom-pagination justify-content-end">
+                                                    <span class="fs-16">{{ (currentPage - 1) * itemsPerPage + 1 }} - {{
+                                                        Math.min(currentPage * itemsPerPage, filteredData.length) }} of
+                                                        {{ filteredData.length }} items</span>
+                                                    <ul class="pagination custom-pagination mb-0">
                                                         <li class="page-item" :class="{ disabled: currentPage === 1 }">
                                                             <a class="page-link" href="#"
                                                                 @click.prevent="goToPage(currentPage - 1)">
@@ -420,84 +332,66 @@ onUnmounted(() => {
                             </table>
 
                             <!-- Edit Modal -->
-                            <div v-if="isEditModalVisible" class="modal-backdrop" @click="closeEditLevelCourseModal">
-                            </div>
+                            <div v-if="isEditModalVisible" class="modal-backdrop" @click="closeEditToolsModal"></div>
                             <div v-if="isEditModalVisible" class="modal fade show d-block" role="dialog"
                                 aria-labelledby="exampleModalLabel" aria-hidden="false"
-                                @click.self="closeEditLevelCourseModal">
+                                @click.self="closeEditToolsModal">
                                 <div class="modal-dialog custom-modal modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header mb--3">
                                             <h5 class="fs-16 fw-medium" id="exampleModalLabel">
-                                                <i class="bi bi-pencil-square me-1"></i>Edit Level Course
+                                                <i class="bi bi-pencil-square me-1"></i>Edit Skill
                                             </h5>
                                             <button type="button" class="btn-close fs-12 c-close"
-                                                @click="closeEditLevelCourseModal"></button>
+                                                @click="closeEditToolsModal"></button>
                                         </div>
                                         <hr class="mt-0">
-                                        <div class="ps-3 pe-4 mt-3 mb-2">
-                                            <div class="d-flex justify-content-between mt-3">
-                                                <label for="categoryName" class="fs-16 mb-0 mt-2">Nama Level
-                                                    Course</label>
-                                                <input type="text" id="categoryName"
-                                                    class="form-control c-border w-66 h-43"
-                                                    placeholder="Nama level Course" v-model="currentLevelCourse.name" />
-                                            </div>
-                                            <div class="d-flex justify-content-between mt-3">
-                                                <label for="categoryName" class="fs-16 mb-0 mt-2">Point Learning</label>
-                                                <input type="text" id="categoryName"
-                                                    class="form-control c-border w-66 h-43" placeholder="Point Learning"
-                                                    v-model="currentLevelCourse.point_course_content" />
-                                            </div>
-                                            <div class="d-flex justify-content-between mt-3">
-                                                <label for="categoryName" class="fs-16 mb-0 mt-2">Point Quiz</label>
-                                                <input type="text" id="categoryName"
-                                                    class="form-control c-border w-66 h-43" placeholder="Point Quiz"
-                                                    v-model="currentLevelCourse.point_quiz" />
-                                            </div>
-                                            <div class="d-flex justify-content-between mt-3">
-                                                <label for="categoryName" class="fs-16 mb-0 mt-2">Point
-                                                    Assignment</label>
-                                                <input type="text" id="categoryName"
-                                                    class="form-control c-border w-66 h-43"
-                                                    placeholder="Point Assignment"
-                                                    v-model="currentLevelCourse.point_assignment" />
-                                            </div>
-                                            <div class="d-flex justify-content-between mt-3">
-                                                <label for="categoryName" class="fs-16 mb-0 mt-2">Point
-                                                    Completion</label>
-                                                <input type="text" id="categoryName"
-                                                    class="form-control c-border w-66 h-43"
-                                                    placeholder="Point Completion"
-                                                    v-model="currentLevelCourse.point_course_completion" />
+                                        <div class="d-flex align-items-center">
+                                            <label for="editCategoryName" class="me-5 fs-16 mb-0">Name
+                                            </label>
+                                            <input type="text" id="editCategoryName"
+                                                class="form-control w-66 h-45 c-border"
+                                                placeholder="Enter tools name" />
+                                        </div>
+                                        <div class="d-flex align-items-center mt-3">
+                                            <label for="categoryName" class="fs-16 mb-0 me-60 mt--85">Logo</label>
+                                            <div>
+                                                <img v-if="imagePreview" :src="imagePreview" alt="Image Preview"
+                                                    class="img-fluid mb-2 rounded-2"
+                                                    style="max-height: 100px; max-width: 105px; display: block;">
+                                                <input type="file" id="fileInput" class="hidden" accept="image/*"
+                                                    @change="handleFileUploadEdit" />
+                                                <button type="button" class="btn c-border px-4 py-2 mt-2"
+                                                    onclick="document.getElementById('fileInput').click();">
+                                                    Upload
+                                                </button>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-center mb-5">
                                             <ButtonTransparanComponen
                                                 class="mt-4 my-0 h-40 w-30 me-5 rounded-3 c-border bg-white fs-16"
-                                                @click="closeEditLevelCourseModal">Cancel</ButtonTransparanComponen>
+                                                @click="closeEditToolsModal">Cancel</ButtonTransparanComponen>
                                             <ButtonBiru class="ms-3 mt-4 my-0 h-40 w-30 rounded-3 fs-16"
-                                                @click="saveUpdateLevelCourse">Save</ButtonBiru>
+                                                @click="saveUpdateSkills">Save</ButtonBiru>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Delete Modal -->
-                            <div v-if="isDeleteModalVisible" class="modal-backdrop"
-                                @click="closeDeleteLevelCourseModal">
+                            <div v-if="isDeleteModalVisible" class="modal-backdrop" @click="closeDeleteToolsModal">
                             </div>
                             <div v-if="isDeleteModalVisible" class="modal fade show d-block" role="dialog"
                                 aria-labelledby="deleteModalLabel" aria-hidden="true"
-                                @click.self="closeDeleteLevelCourseModal">
+                                @click.self="closeDeleteToolsModal">
                                 <div class="modal-dialog custom-modal modal-dialog-centered">
                                     <div class="modal-content pt-3">
                                         <div
                                             class="modal-header mb-3 d-flex flex-column justify-content-center align-items-center text-center">
                                             <PhTrashSimple :size="50" color="#ff4c4c" />
-                                            <h5 class="mb-4 mt-3 fs-16 fw-medium text-merah">Delete Level Course</h5>
+                                            <h5 class="mb-4 mt-3 fs-16 fw-medium text-merah">Delete Tools</h5>
                                             <h5 class="fs-16 fw-light opacity-50">
-                                                Are you sure you want to delete this Level Course? Once deleted, this
+                                                Are you sure you want to delete this Tools? Once deleted, this
                                                 data
                                                 cannot be restored.
                                             </h5>
@@ -505,10 +399,9 @@ onUnmounted(() => {
                                         <div class="d-flex justify-content-center mb-5">
                                             <ButtonTransparanComponen
                                                 class="my-0 h-40 w-30 me-5 rounded-3 c-border bg-white fs-16"
-                                                @click="closeDeleteLevelCourseModal">No, Cancel
-                                            </ButtonTransparanComponen>
+                                                @click="closeDeleteToolsModal">No, Cancel</ButtonTransparanComponen>
                                             <ButtonMerah class="ms-3 my-0 h-40 w-30 rounded-3 fs-16"
-                                                @click="deleteCourse">Yes, Delete</ButtonMerah>
+                                                @click="deleteTools">Yes, Delete</ButtonMerah>
                                         </div>
                                     </div>
                                 </div>
