@@ -111,15 +111,15 @@ onUnmounted(() => {
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="dateRange" class="col-sm-3 col-form-label fs-16">Date</label>
-                                    <div class="col-sm-9 date-range-input-container">
+                                    <div class="col-sm-5 date-range-input-container">
                                         <input type="text" id="dateRange" class="form-control bordersa fs-16 h-43 opacity-75"
                                             placeholder="Select date range">
-                                        <i class="bi bi-calendar3 date-range-icon"></i>
+                                        <!-- <i class="bi bi-calendar3 date-range-icon"></i> -->
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="category" class="col-sm-3 col-form-label fs-16">Category</label>
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-5">
                                         <select class="form-select fs-16 h-43 opacity-75 rounded-3 bordersa">
                                             <option selected>Category</option>
                                             <option value="web">Web</option>
